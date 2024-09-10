@@ -11,13 +11,13 @@ import food7 from "../assets/food7.jpg"
 import food8 from "../assets/food8.jpeg"
 import food9 from "../assets/food9.jpg"
 import food10 from "../assets/food10.jpeg"
-import yoshina from "../assets/yoshina.jpeg"
-import Foot from '../components/primary-comp/foot'
 import SideBar from '../components/primary-comp/sidebar'
+import Foot from '../components/primary-comp/foot'
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import img from "../assets/land3.png"
+import img1 from "../assets/land1.png"
 
 import {Swiper, SwiperSlide} from 'swiper/react'
 import {Navigation, Pagination} from "swiper/modules"
@@ -33,45 +33,135 @@ function Landing() {
     const [nav, setNav] = useState(false)
     
     const objList = [
-        {
-            name : "Sumptous Fried Fries",
-            img: food1
-          },
-          {
-            name : "Immortal Veggies goodness",
-            img: food10
-          },
-          {
-            name : "Pancakes",
-            img: food3
-          },
-          {
-            name : "Buger",
-            img: food4
-          },
-          {
-            name : "Veggies goodness",
-            img: food5
-          },
-          {
-            name : "Delicacy",
-            img: food6
-          },
-          {
-            name : "Delicacy",
-            img: food7
-          },
-          {
-            name : "pizza",
-            img: food8
-          },
-          {
-            name : "Pizzas",
-            img: food9
-          },
+      {
+        name : "Sumptous Fried Fries",
+        price : 2500.00, 
+        available: 40, 
+        img: food1, 
+        id: self.crypto.randomUUID()
+      },
+      {
+        name : "Immortal Veggies goodness",
+        price : 1600.00, 
+        available: 20, 
+        img: food10,
+        id: self.crypto.randomUUID()
+      },
+      {
+        name : "Pancakes",
+        price : 9000.00, 
+        available: 10, 
+        img: food3, 
+        id: self.crypto.randomUUID()
+      },
+      {
+        name : "Buger",
+        price : 3000.00, 
+        available: 30, 
+        img: food4, 
+        id: self.crypto.randomUUID()
+      },
+      {
+        name : "Veggies goodness",
+        price : 1400.00, 
+        available: 5, 
+        img: food5, 
+        id: self.crypto.randomUUID()
+      },
+      {
+        name : "Delicacy",
+        price : 4000.00, 
+        available: 30, 
+        img: food6, 
+        id: self.crypto.randomUUID()
+      },
+      {
+        name : "Delicacy",
+        price : 1900.00, 
+        available: 10, 
+        img: food7, 
+        id: self.crypto.randomUUID()
+      },
+      {
+        name : "pizza",
+        price : 20000.00, 
+        available: 50, 
+        img: food8, 
+        id: self.crypto.randomUUID()
+      },
+      {
+        name : "Pizzas",
+        price : 15000.00, 
+        available: 15, 
+        img: food9, 
+        id: self.crypto.randomUUID()
+      },
+      {
+        name : "Sumptous Fried Fries",
+        price : 2500.00, 
+        available: 40, 
+        img: food1, 
+        id: self.crypto.randomUUID()
+      },
+      {
+        name : "Immortal Veggies goodness",
+        price : 1600.00, 
+        available: 20, 
+        img: food10,
+        id: self.crypto.randomUUID()
+      },
+      {
+        name : "Pancakes",
+        price : 9000.00, 
+        available: 10, 
+        img: food3, 
+        id: self.crypto.randomUUID()
+      },
+      {
+        name : "Buger",
+        price : 3000.00, 
+        available: 30, 
+        img: food4, 
+        id: self.crypto.randomUUID()
+      },
+      {
+        name : "Veggies goodness",
+        price : 1400.00, 
+        available: 5, 
+        img: food5, 
+        id: self.crypto.randomUUID()
+      },
+      {
+        name : "Delicacy",
+        price : 4000.00, 
+        available: 30, 
+        img: food6, 
+        id: self.crypto.randomUUID()
+      },
+      {
+        name : "Delicacy",
+        price : 1900.00, 
+        available: 10, 
+        img: food7, 
+        id: self.crypto.randomUUID()
+      },
+      {
+        name : "pizza",
+        price : 20000.00, 
+        available: 50, 
+        img: food8, 
+        id: self.crypto.randomUUID()
+      },
+      {
+        name : "Pizzas",
+        price : 15000.00, 
+        available: 15, 
+        img: food9, 
+        id: self.crypto.randomUUID()
+      },
     ] 
 
-    const menuSlide = objList.map((items, i) => <SwiperSlide> <MenuList name={items.name} img={items.img}/> </SwiperSlide>)
+    const menuSlide = objList.map((items, i) => <SwiperSlide key={i}> <MenuList name={items.name} img={items.img}/> </SwiperSlide>)
 
   return (
     <div>
@@ -128,22 +218,72 @@ function Landing() {
         <section className='px-[--pdx] py-[1em]'>
           <h2 className='text-[2rem] font-bold py-[1em] text-[--black] text-center poppins uppercase '>Categories</h2>
           <div className='flex justify-between gap-[2em]'>
-            <div className='w-[50%] h-[300px] bg-black p-[.5em]'>
-              <div className='w-full relative h-full  back'>
-                <div className='absolute top-0 w-full bg-[#00000091] h-full'>
+            <div className='w-[50%]  h-[200px] bg-[--blackv] rounded-[5px] p-[.5em]'>
+              <div className='w-full relative rounded-[3px] h-full  back'>
+                <div className='absolute rounded-[3px] top-0 w-full bg-[#00000091] h-full flex items-center justify-center gap-[2em]'>
+                  
+                  <h3 className='text-[2rem] ubun text-white mr-[2em]'>Fast Foods</h3>
+
+                  <ul className='text-[--nav] poppins text-xl list-disc'>
+                    <li>Snacks</li>
+                    <li>Burgers</li>
+                    <li>Hot dogs</li>
+                  </ul>
+                  <ul className='text-[--nav] poppins text-xl list-disc'>
+                    <li>Snacks</li>
+                    <li>Burgers</li>
+                    <li>Hot dogs</li>
+                  </ul>
 
                 </div>
               </div>
             </div>
-            <div className='w-[50%] h-[300px] bg-black p-[.5em]'>
-              <div className='w-full relative h-full  back1'>
-                <div className='absolute top-0 w-full bg-[#00000091] h-full'>
+            <div className='w-[50%] rounded-[5px] h-[200px] bg-[--blackv] p-[.5em]'>
+              <div className='w-full rounded-[5px] relative h-full  back1'>
+                <div className='absolute rounded-[3px] top-0 w-full bg-[#00000091] h-full flex items-center justify-center gap-[2em]'>
+                  <h3 className='text-[2rem] ubun text-white mr-[2em]'>Drinks</h3>
 
+                      <ul className='text-[--nav] poppins text-xl list-disc'>
+                        <li>Tea</li>
+                        <li>Coffee</li>
+                        <li>Soft Drinks</li>
+                      </ul>
+                      <ul className='text-[--nav] poppins text-xl list-disc'>
+                        <li>Wines</li>
+                        <li>Latte</li>
+                        <li>Hot dogs</li>
+                      </ul>
                 </div>
               </div>
             </div>
           </div>
         </section>
+        <section className='  flex justify-between px-[--pdx] items-center py-[2em]'>
+
+          <div className='w-[50%] flex  items-center justify-center relative'>
+              <div className=' h-[500px] w-[500px] absolute top-[2em] z-[-2] bg-[--blackv] rounded-[50%] blur-[90px] bg-opacity-10'>
+
+              </div>
+              <img src={img1} className='h-[500px]' alt="" />
+          </div>
+          <div className='w-[50%] flex flex-col gap-[20px]'>
+            <h3 className='text-[2rem] poppins font-bold poppins text-[--black]  uppercase'>About Us</h3>
+              <p className='poppins text-[0.9rem]'>
+                At Resto Kans, we are committed to providing an exceptional dining experience with a focus on quality, comfort, and convenience. Our team is dedicated to ensuring that every guest enjoys outstanding service, whether they are dining in or ordering from home. With a menu crafted from the finest ingredients, our chefs prepare delicious meals tailored to every taste.
+
+                We also offer a seamless online ordering system, making it easy to place orders from your phone or computer. Our e-services provide a variety of payment options, including credit cards and digital wallets, ensuring secure and hassle-free transactions</p>
+              <button className='flex'>
+              <div className='bg-[--black] flex items-center justify-center w-[40px] h-[40px]  text-2xl text-[--nav]'>
+                <FontAwesomeIcon icon={faAngleRight}/>
+              </div>
+              <div className='bg-[--nav] capitalize text-[1.1rem] poppins h-[40px] flex items-center justify-center px-[.5em]'>
+                Sign Up with Us
+              </div>
+            </button>
+          </div>
+        </section>
+        <Foot />
+        
     </div>
   )
 }
