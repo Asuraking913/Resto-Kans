@@ -20,7 +20,11 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import img from "../assets/land3.png"
 
 import {Swiper, SwiperSlide} from 'swiper/react'
-import "swiper/css" 
+import {Navigation, Pagination} from "swiper/modules"
+import "swiper/css"
+import "swiper/css/pagination"
+import "swiper/css/navigation"
+import MenuList from '../components/landing/menuList'
 
 
 function Landing() {
@@ -31,59 +35,43 @@ function Landing() {
     const objList = [
         {
             name : "Sumptous Fried Fries",
-            price : "2500.00", 
-            available: 40, 
             img: food1
           },
           {
             name : "Immortal Veggies goodness",
-            price : "1600.00", 
-            available: 20, 
             img: food10
           },
           {
             name : "Pancakes",
-            price : "9000.00", 
-            available: 10, 
             img: food3
           },
           {
             name : "Buger",
-            price : "3000.00", 
-            available: 30, 
             img: food4
           },
           {
             name : "Veggies goodness",
-            price : "1400.00", 
-            available: 5, 
             img: food5
           },
           {
             name : "Delicacy",
-            price : "4000.00", 
-            available: 30, 
             img: food6
           },
           {
             name : "Delicacy",
-            price : "1900.00", 
-            available: 10, 
             img: food7
           },
           {
             name : "pizza",
-            price : "20000.00", 
-            available: 50, 
             img: food8
           },
           {
             name : "Pizzas",
-            price : "15000.00", 
-            available: 15, 
             img: food9
           },
     ] 
+
+    const menuSlide = objList.map((items, i) => <SwiperSlide> <MenuList name={items.name} img={items.img}/> </SwiperSlide>)
 
   return (
     <div>
@@ -121,11 +109,39 @@ function Landing() {
               <img src={img} alt="" />
           </div>
         </section>
-        <section className='px-[--pdx] min-h-[40vh]'>
+        <section className='px-[6em] flex flex-col justify-center'>
 
-          <h1 className='uppercase ubun font-bold text-[2rem] text-center'>Our Menu</h1>
-          <div>
+          <h2 className='uppercase text-[--black] poppins font-bold text-[2rem] text-center'>Our Menu</h2>
+          <div className='menu  px-[2em]'>
+              <Swiper
+              modules={[Pagination, Navigation]}
+              spaceBetween={1}
+              loop={true}
+              slidesPerView={7}
+              navigation = {true}
+              pagination = {{clickable: true}}
+              >
+                {menuSlide}
+              </Swiper>
+          </div>
+        </section>
+        <section className='px-[--pdx] py-[1em]'>
+          <h2 className='text-[2rem] font-bold py-[1em] text-[--black] text-center poppins uppercase '>Categories</h2>
+          <div className='flex justify-between gap-[2em]'>
+            <div className='w-[50%] h-[300px] bg-black p-[.5em]'>
+              <div className='w-full relative h-full  back'>
+                <div className='absolute top-0 w-full bg-[#00000091] h-full'>
 
+                </div>
+              </div>
+            </div>
+            <div className='w-[50%] h-[300px] bg-black p-[.5em]'>
+              <div className='w-full relative h-full  back1'>
+                <div className='absolute top-0 w-full bg-[#00000091] h-full'>
+
+                </div>
+              </div>
+            </div>
           </div>
         </section>
     </div>
