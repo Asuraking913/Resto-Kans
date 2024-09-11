@@ -1,14 +1,22 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Nav from '../components/primary-comp/nav'
 import SideBar from '../components/primary-comp/sidebar'
 import { useState } from 'react'
 import { faCartShopping, faDollar, faNairaSign } from '@fortawesome/free-solid-svg-icons'
-
+import food from "../assets/food10.jpeg"
+import food2 from "../assets/food8.jpeg"
+import food3 from "../assets/food9.jpg" 
+import food4 from "../assets/food.jpeg"
 import TabBlock from '../components/dashboard/tabBlock'
+import Orders from '../components/dashboard/order'
 
 function Dashboard() {
 
+    const recent = useRef(null)
+    const payment = useRef(null)
+    const receipts = useRef(null)
     const [clicked, setClicked] = useState("order")
+    
 
 
     const [nav, setNav] = useState(false)
@@ -38,17 +46,20 @@ function Dashboard() {
                 {
                     name : "Pancakes",
                     price : 1000, 
-                    quantity : 4
+                    quantity : 4, 
+                    img: food2
                 }, 
                 {
                     name : "Sausage roll",
-                    price : 1000, 
-                    quantity : 10
+                    price : 800, 
+                    quantity : 10, 
+                    img: food3
                 }, 
                 {
                     name : "Pancakes",
                     price : 1000, 
-                    quantity : 6
+                    quantity : 6, 
+                    img: food
                 }
             ]
         }, 
@@ -58,18 +69,21 @@ function Dashboard() {
             items : [
                 {
                     name : "Pancakes",
-                    price : 1000, 
-                    quantity : 4
+                    price : 15000, 
+                    quantity : 4, 
+                    img: food3
                 }, 
                 {
                     name : "Sausage roll",
-                    price : 1000, 
-                    quantity : 10
+                    price : 1900, 
+                    quantity : 10, 
+                    img: food4
                 }, 
                 {
                     name : "Pancakes",
                     price : 1000, 
-                    quantity : 6
+                    quantity : 6, 
+                    img: food2
                 }
             ]
         }, 
@@ -80,23 +94,77 @@ function Dashboard() {
                 {
                     name : "Pancakes",
                     price : 1000, 
-                    quantity : 4
+                    quantity : 4, 
+                    img: food
                 }, 
                 {
                     name : "Sausage roll",
                     price : 1000, 
-                    quantity : 10
+                    quantity : 10, 
+                    img: food2
                 }, 
                 {
                     name : "Pancakes",
                     price : 1000, 
-                    quantity : 6
+                    quantity : 6, 
+                    img: food
+                }
+            ]
+        },
+        {
+            orderId: self.crypto.randomUUID(), 
+            date : "December 23, 2024",
+            items : [
+                {
+                    name : "Pancakes",
+                    price : 1000, 
+                    quantity : 4, 
+                    img: food
+                }, 
+                {
+                    name : "Sausage roll",
+                    price : 1000, 
+                    quantity : 10, 
+                    img: food2
+                }, 
+                {
+                    name : "Pancakes",
+                    price : 1000, 
+                    quantity : 6, 
+                    img: food
+                }
+            ]
+        },
+        {
+            orderId: self.crypto.randomUUID(), 
+            date : "December 23, 2024",
+            items : [
+                {
+                    name : "Pancakes",
+                    price : 1000, 
+                    quantity : 4, 
+                    img: food
+                }, 
+                {
+                    name : "Sausage roll",
+                    price : 1000, 
+                    quantity : 10, 
+                    img: food2
+                }, 
+                {
+                    name : "Pancakes",
+                    price : 1000, 
+                    quantity : 6, 
+                    img: food
                 }
             ]
         }
     ])
 
     const tabList = tabObj.map((item, i) => <TabBlock key={i} icon={item.icon} header={item.header} number={item.amount}/>)
+    
+    // tab items
+    const orderList = orders.map((items, i) => <Orders key={i} {...items}/>)
 
   return (
     <div>
@@ -106,22 +174,30 @@ function Dashboard() {
             <SideBar />
         </div>
 
-        <section className='h-screen px-[--pdx] py-[4em]'>
-            <div className='mt-[1em] m-[10px]'>
+        <section className=' px-[--pdx] py-[.5em] pt-[4em] flex flex-col gap-[.5em]'>
+            <div className='m-[10px]'>
                 <div className='  '>
                     <h1 className='text-[2rem] poppins font-bold'>Welcome to Your DashBoard Israel!!</h1>
                     <p className='poppins text-[0.9rem]'>View your recent transactions and activity</p>
                 </div>
-                <ul className='flex mt-[1em] gap-[1em] ubun'>
-                    <li className='underline'>Orders</li>
-                    <li className='underline'>Payment methods</li>
-                    <li className='underline'>Receipts</li>
-                </ul>
             </div>
 
             {/* Tab Block */}
             <div className='flex gap-[1em]'>
                 {tabList}
+            </div>
+            
+        </section>
+        <nav className='px-[--pdx]'>
+            <ul className='flex mt-[1em] gap-[10px] ubun'>
+                <li ><button  className={`p-[.5em] ${clicked === 'orders' ? ""  : ""} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black] sm:hover:bg-[--nav] bg-[--black] text-[--nav]`}>Recent Orders</button></li>
+                <li ><button  className={`p-[.5em] ${clicked === 'payments' ? ""  : ""} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black] sm:hover:bg-[--nav] bg-[--black] text-[--nav]`}>Payment methods</button></li>
+                <li ><button  className={`p-[.5em] ${clicked === 'receipts' ? ""  : ""} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black] sm:hover:bg-[--nav] bg-[--black] text-[--nav]`}>Receipts</button></li>
+            </ul>
+        </nav>
+        <section className='px-[--pdx]'>
+            <div className='flex flex-wrap gap-[1em] py-[1em]'>
+                {orderList}
             </div>
         </section>
     </div>
