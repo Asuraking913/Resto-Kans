@@ -95,8 +95,8 @@ function OrderCart({name, img, quantity, id, price, onSelect, selected, onError,
       <div className='sm:w-[280px] w-[49%] p-[.5em] bg-[--nav] rounded-[10px] flex gap-[1em] flex-col'>
         <div className='flex flex-col gap-[.5em] relative'>
           <img className='w-full h-[100px] sm:h-[200px] object-cover rounded-[10px]' src={img} alt="Food Image" />
-          <p className='poppins font-bold text-[--black] sm:text-[1rem] text-[0.8rem]'><Truncate text={name} maxLength={22} subLength={16}/></p>
-          <div className='absolute top-[50%] sm:top-[70%] bg-[#aaa8a89d] rounded-[2em] p-[.3em] px-[1em] '>
+          <p className='ubun font-bold text-[--black] sm:text-[1rem] text-[0.8rem]'><Truncate text={name} maxLength={22} subLength={16}/></p>
+          <div className='absolute top-[50%] sm:top-[70%] bg-[#aaa8a89d] backdrop-blur-sm rounded-[2em] p-[.3em] px-[1em] '>
            <p className=' sm:top-[68%]  sm:text-[1rem] text-[.7rem] inline text-[--black] poppins sm:px-[.4em]'>Available: {newQuantity == quantity ? available : available}</p>
   
           </div>
@@ -104,7 +104,7 @@ function OrderCart({name, img, quantity, id, price, onSelect, selected, onError,
         <div className='flex justify-between'>
           <div >
             <p className='sm:text-[0.9rem] text-[0.7rem] poppins opacity-70 text-[--black]'>Price per potion</p>
-            <p className='poppins sm:text-[0.9rem] text-[0.8rem] text-[--black]'><FontAwesomeIcon icon={faNairaSign}/>{price}</p>
+            <p className='poppins sm:text-[0.9rem] text-[0.8rem] text-[--black]'><FontAwesomeIcon icon={faNairaSign}/>{price.toLocaleString()}</p>
           </div>
 
           <AnimatePresence >

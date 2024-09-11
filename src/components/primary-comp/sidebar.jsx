@@ -85,7 +85,7 @@ function SideBar({nav}) {
                         <FontAwesomeIcon className='mr-[1em]' icon={faHouse} />
                         <button>Home</button>
                     </li>
-                    <li className='poppins font-[semibold] text-[1.2em] text-[--gray] p-[.5em] cursor-pointer hover:bg-[--black] hover:text-[--nav] rounded-[5px]'>
+                    <li onClick={() => navigate("/dashboard")} className='poppins font-[semibold] text-[1.2em] text-[--gray] p-[.5em] cursor-pointer hover:bg-[--black] hover:text-[--nav] rounded-[5px]'>
                         <FontAwesomeIcon className='mr-[1em]' icon={faBarsProgress}/>
                         <button>DashBoard</button>
                     </li>
@@ -93,22 +93,12 @@ function SideBar({nav}) {
                         <FontAwesomeIcon className='mr-[1em]' icon={faCartShopping}/>
                         <button>Menu</button>
                     </li>
-                    {/* <li className='poppins font-[semibold] text-[1.2em] text-[--gray] p-[.5em] cursor-pointer hover:bg-[--black] hover:text-[--nav] rounded-[5px]'>
-                        <FontAwesomeIcon className='mr-[1em]' icon={faDollar}/>
-                        <button>Fund</button></li> */}
-                    {/* <li className='poppins font-[semibold] text-[1.2em] text-[--gray] p-[.5em] cursor-pointer hover:bg-[--black] hover:text-[--nav] rounded-[5px]'>
-                        <FontAwesomeIcon className='mr-[1em]' icon={faReceipt}/>
-                        <button>Receipts</button></li> */}
                 </ul>
                 <ul className='flex flex-col'>
                     <li className='poppins font-[semibold] text-[1.2em] text-[--gray] p-[.5em] cursor-pointer hover:bg-[--black] hover:text-[--nav] rounded-[5px]'>
                         <FontAwesomeIcon className='mr-[1em]' icon={faGear}/>
                         <button>Settings</button>
                     </li>
-                    {/* <li className='poppins font-[semibold] text-[1.2em] text-[--gray] p-[.5em] cursor-pointer hover:bg-[--black] hover:text-[--nav] rounded-[5px]'>
-                        <FontAwesomeIcon className='mr-[1em]' icon={faQuestion}/>
-                        <button>FAQ</button>
-                    </li> */}
                     <li className='poppins font-[semibold] text-[1.2em] text-[--gray] p-[.5em] cursor-pointer hover:bg-[--black] hover:text-[--nav] rounded-[5px]'>
                         <FontAwesomeIcon className='mr-[1em]' icon={faPerson}/>
                         <button>Customer Support</button>

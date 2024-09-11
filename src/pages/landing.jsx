@@ -187,7 +187,7 @@ function Landing() {
         
 
         <section className='h-screen flex items-center px-[1em] sm:px-[6em] justify-between'>
-          <div className='sm:w-[50%] flex flex-col gap-[4em]'>
+          <div className='sm:w-[90%] flex flex-col gap-[4em]'>
             <motion.div
             initial={{
               x: "-40px",
@@ -202,10 +202,11 @@ function Landing() {
               x: 0,
               opacity: [0, 0.1, 0.3, 0.5, 0.7, 1]
             }}
+
              className='flex flex-col'>
-              <h1 className='text-[2.5rem] capitalize ubun'>Swift Delivery, Trusted Service,  <span className='poppins font-bold '>Experience</span> the best!</h1>
+              <h1 className='sm:text-[3.4rem] text-[2.4em] capitalize ubun'>Swift Delivery, Trusted Service,  <span className='poppins font-bold '>Experience</span> the best!</h1>
               <p className='poppins text-[1.2rem]'>
-                Craving something yummy?? <br />
+                Craving something yummy?? 
                 Place an order
               </p>
             </motion.div>
@@ -220,16 +221,22 @@ function Landing() {
                 duration: .5
               }}
 
+              whileHover={{
+                x: "2em"
+              }}
+
               animate={{
                 x: 0,
                 opacity: [0, 0.1, 0.3, 0.5, 0.7, 1]
               }}
+
+              onClick={() => navigate("/menu")}
              className='flex'>
               <div className='bg-[--black] flex items-center justify-center w-[40px] h-[40px]  text-2xl text-[--nav]'>
                 <FontAwesomeIcon icon={faAngleRight}/>
               </div>
-              <div className='bg-[--nav] text-[1.1rem] poppins h-[40px] flex items-center justify-center px-[.5em]'>
-                Place an order
+              <div className='bg-[--nav] capitalize text-[1.1rem] poppins h-[40px] flex items-center justify-center px-[.5em]'>
+                Go To our menu
               </div>
             </motion.button>
 
@@ -365,20 +372,28 @@ function Landing() {
             x: 0,
             opacity: 1
           }}
-           className='sm:w-[50%] flex flex-col sm:h-auto h-full gap-[20px]'>
+           className='sm:w-[50%] w-[90%] flex flex-col sm:h-auto h-full gap-[20px]'>
             <h3 className='sm:text-[2rem] text-[1.5rem] poppins font-bold poppins text-[--black]  uppercase'>About Us</h3>
               <p className='poppins text-[0.9rem]'>
                 At Resto Kans, we are committed to providing an exceptional dining experience with a focus on quality, comfort, and convenience. Our team is dedicated to ensuring that every guest enjoys outstanding service, whether they are dining in or ordering from home. With a menu crafted from the finest ingredients, our chefs prepare delicious meals tailored to every taste.
 
                 We also offer a seamless online ordering system, making it easy to place orders from your phone or computer. Our e-services provide a variety of payment options, including credit cards and digital wallets, ensuring secure and hassle-free transactions</p>
-              <button className='flex'>
-              <div className='bg-[--black] flex items-center justify-center w-[40px] h-[40px]  text-2xl text-[--nav]'>
-                <FontAwesomeIcon icon={faAngleRight}/>
-              </div>
-              <div className='bg-[--nav] capitalize text-[1.1rem] poppins h-[40px] flex items-center justify-center px-[.5em]'>
-                Sign Up with Us
-              </div>
-            </button>
+              <motion.button
+                whileHover={{
+                  x: '2em'
+                }}
+                
+                transition={{
+                  duration: .5
+                }}
+               className='flex'>
+                <div className='bg-[--black] flex items-center justify-center w-[40px] h-[40px]  text-2xl text-[--nav]'>
+                  <FontAwesomeIcon icon={faAngleRight}/>
+                </div>
+                <div className='bg-[--nav] capitalize text-[1.1rem] poppins h-[40px] flex items-center justify-center px-[.5em]'>
+                  Sign Up with Us
+                </div>
+            </motion.button>
           </motion.div>
         </section>
         <Foot />

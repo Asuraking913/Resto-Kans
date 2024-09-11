@@ -104,11 +104,11 @@ function CartBar({selectedItems, onChange}) {
         </div>
         <h2>Payment Summary</h2>
         <ul className='flex flex-col gap-1'>
-            <li className='flex justify-between text-[0.8rem] text-[--black]'><p>Subtotal</p><p><FontAwesomeIcon icon={faNairaSign}/>{selectedItems.filter(items => items.quantity != 0).length > 0 ? total : "0.00"}</p></li>
+            <li className='flex justify-between text-[0.8rem] text-[--black]'><p>Subtotal</p><p><FontAwesomeIcon icon={faNairaSign}/>{selectedItems.filter(items => items.quantity != 0).length > 0 ? total.toLocaleString() : "0.00"}</p></li>
             <li className='flex justify-between text-[0.8rem] text-[--black]'><p>Discount Sales</p><p><FontAwesomeIcon icon={faNairaSign}/>{"0.00"}</p></li>
             {/* <li className='flex justify-between text-[0.8rem] text-[--black]'><p>Total tax</p><p><FontAwesomeIcon icon={faNairaSign}/>{selectedItems.filter(items => items.quantity != 0).length > 0 ? total : "0.00"}</p></li> */}
             <hr  className='bg-[--black] border-black'/>
-            <li className='flex justify-between text-[0.8rem] text-[--black]'><p>Total</p><p><FontAwesomeIcon icon={faNairaSign}/>{selectedItems.filter(items => items.quantity != 0).length > 0 ? total : "0.00"}</p></li>
+            <li className='flex justify-between text-[0.8rem] text-[--black]'><p>Total</p><p><FontAwesomeIcon icon={faNairaSign}/>{selectedItems.filter(items => items.quantity != 0).length > 0 ? total.toLocaleString() : "0.00"}</p></li>
         </ul>
         <button className='bg-[--black] p-[.5em] text-[--nav] rounded-[2em]'>Order Now</button>
     </div>
