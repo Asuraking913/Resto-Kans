@@ -66,15 +66,22 @@ body {
 
 .menu .swiper-button-next, .menu .swiper-button-prev {
     background-color: black;
-    width: 50px;
+    width: 40px;
     padding: 1em;
-    height: 50px;
+    height: 40px;
+    font-size: 0px;
     border-radius: 50%;
     color: var(--bg);
     display: flex;
     justify-content: center;
     align-items: center;
     transition-duration: 0.5s;
+    box-shadow: 0px 0px 2px 1px white;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 30px; /* Resize the actual icon inside the button */
 }
 
 .menu .swiper-button-next:hover, .menu .swiper-button-prev:hover {

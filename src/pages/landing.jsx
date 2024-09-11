@@ -20,7 +20,7 @@ import img from "../assets/land3.png"
 import img1 from "../assets/land1.png"
 
 import {Swiper, SwiperSlide} from 'swiper/react'
-import {Navigation, Pagination} from "swiper/modules"
+import {Navigation, Pagination, Autoplay} from "swiper/modules"
 import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
@@ -177,12 +177,6 @@ function Landing() {
       };
     }, []);
 
-    useEffect(() => {
-      console.log(isMobileView)
-    }, [isMobileView])
-
-    const [slides , setSlides] = useState(7) 
-
   return (
     <div>
         <Nav onNav={setNav} nav={nav}/>
@@ -194,29 +188,57 @@ function Landing() {
 
         <section className='h-screen flex items-center px-[1em] sm:px-[6em] justify-between'>
           <div className='sm:w-[50%] flex flex-col gap-[4em]'>
-            <div className='flex flex-col'>
-              <h1 className='text-[2.5rem] capitalize ubun'>Swift Delivery, Trusted Service  <span className='poppins font-bold sm:block'>Experience</span> the best!</h1>
+            <motion.div
+            initial={{
+              x: "-40px",
+              opacity: 0
+            }}
+
+            transition={{
+              duration: 1
+            }}
+
+            animate={{
+              x: 0,
+              opacity: [0, 0.1, 0.3, 0.5, 0.7, 1]
+            }}
+             className='flex flex-col'>
+              <h1 className='text-[2.5rem] capitalize ubun'>Swift Delivery, Trusted Service,  <span className='poppins font-bold '>Experience</span> the best!</h1>
               <p className='poppins text-[1.2rem]'>
                 Craving something yummy?? <br />
                 Place an order
               </p>
-            </div>
+            </motion.div>
 
-            <button className='flex'>
+            <motion.button
+              initial={{
+                x: "-300px",
+                opacity: 0
+              }}
+
+              transition={{
+                duration: .5
+              }}
+
+              animate={{
+                x: 0,
+                opacity: [0, 0.1, 0.3, 0.5, 0.7, 1]
+              }}
+             className='flex'>
               <div className='bg-[--black] flex items-center justify-center w-[40px] h-[40px]  text-2xl text-[--nav]'>
                 <FontAwesomeIcon icon={faAngleRight}/>
               </div>
               <div className='bg-[--nav] text-[1.1rem] poppins h-[40px] flex items-center justify-center px-[.5em]'>
                 Place an order
               </div>
-            </button>
+            </motion.button>
 
           </div>
           <div className='w-[50%] h-auto hidden sm:flex items-center justify-end  relative'>
               <div className=' h-[500px] w-[500px] absolute top-[4em] z-[-2] bg-[--blackv] rounded-[50%] blur-[90px] bg-opacity-10'>
 
               </div>
-              <img src={img} alt="" />
+              <img className='' src={img} alt="" />
           </div>
         </section>
         <section className='sm:px-[6em] px-[1em] flex flex-col justify-center'>
@@ -224,9 +246,10 @@ function Landing() {
           <h2 className='uppercase text-[--black] poppins font-bold text-[1.5rem] sm:text-[2rem] text-center'>Our Menu</h2>
           <div className='menu  sm:px-[2em]'>
               <Swiper
-              modules={[Pagination, Navigation]}
+              modules={[Pagination, Navigation, Autoplay]}
               spaceBetween={1}
               loop={true}
+              autoplay={{delay : 3000}}
               slidesPerView={isMobileView ? 3 : 7}
               navigation = {true}
               pagination = {{clickable: true}}
@@ -238,7 +261,21 @@ function Landing() {
         <section className='sm:px-[--pdx] px-[1em] py-[1em]'>
           <h2 className='sm:text-[2rem] text-[1.5rem] font-bold py-[1em] text-[--black] text-center poppins uppercase '>Categories</h2>
           <div className='flex flex-col sm:flex-row justify-between gap-[2em]'>
-            <div className='sm:w-[50%]  h-[200px] bg-[--blackv] rounded-[5px] p-[.5em]'>
+            <motion.div
+              initial={{
+                y: "4em",
+                // opacity: 0
+              }}
+  
+              transition={{
+                duration: .9
+              }}
+  
+              whileInView={{
+                y: 0,
+                // opacity: [0, 0.1, 0.3, 0.5, 0.7, 1]
+              }}
+             className='sm:w-[50%]  h-[200px] bg-[--blackv] rounded-[5px] p-[.5em]'>
               <div className='w-full relative rounded-[3px] h-full  back'>
                 <div className='absolute rounded-[3px] top-0 w-full bg-[#00000091] h-full flex items-center justify-center gap-[2em]'>
                   
@@ -249,7 +286,7 @@ function Landing() {
                     <li>Burgers</li>
                     <li>Hot dogs</li>
                   </ul>
-                  <ul className='text-[--nav] poppins text-xl list-disc'>
+                  <ul className='text-[--nav] poppins sm:text-xl list-disc'>
                     <li>Snacks</li>
                     <li>Burgers</li>
                     <li>Hot dogs</li>
@@ -257,8 +294,22 @@ function Landing() {
 
                 </div>
               </div>
-            </div>
-            <div className='sm:w-[50%] rounded-[5px] h-[200px] bg-[--blackv] p-[.5em]'>
+            </motion.div>
+            <motion.div
+            initial={{
+              y: "6em",
+              // opacity: 0
+            }}
+
+            transition={{
+              duration: .9
+            }}
+
+            whileInView={{
+              y: 0,
+              // opacity: [0, 0.1, 0.3, 0.5, 0.7, 1]
+            }}
+             className='sm:w-[50%] rounded-[5px] h-[200px] bg-[--blackv] p-[.5em]'>
               <div className='w-full rounded-[5px] relative h-full  back1'>
                 <div className='absolute rounded-[3px] top-0 w-full bg-[#00000091] h-full flex items-center justify-center gap-[2em]'>
                   <h3 className='sm:text-[2rem] text-[1.5rem] ubun text-white sm:mr-[2em]'>Drinks</h3>
@@ -268,25 +319,53 @@ function Landing() {
                         <li>Coffee</li>
                         <li>Soft Drinks</li>
                       </ul>
-                      <ul className='text-[--nav] poppins text-xl list-disc'>
+                      <ul className='text-[--nav] poppins sm:text-xl list-disc'>
                         <li>Wines</li>
                         <li>Latte</li>
                         <li>Hot dogs</li>
                       </ul>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
         <section className=' sm:gap-0 gap-[4em]  flex sm:flex-row flex-col-reverse justify-between px-[1em] sm:px-[--pdx] items-center py-[2em]'>
 
-          <div className='w-[50%] flex  items-center justify-center relative'>
+          <motion.div
+          initial={{
+            x: "-9em",
+            // opacity: 0
+          }}
+
+          transition={{
+            duration: 1.3
+          }}
+
+          whileInView={{
+            x: 0,
+            // opacity: [0, 0.1, 0.3, 0.5, 0.7, 1]
+          }}
+           className='w-[50%] flex  items-center justify-center relative'>
               <div className=' sm:h-[500px] h-[240px] w-[240px] sm:w-[500px] absolute top-[2em] z-[-2] bg-[--blackv] rounded-[50%] blur-[90px] bg-opacity-10'>
 
               </div>
               <img src={img1} className='sm:h-[500px]' alt="" />
-          </div>
-          <div className='sm:w-[50%] flex flex-col sm:h-auto h-full gap-[20px]'>
+          </motion.div>
+          <motion.div
+          initial={{
+            x: "2em",
+            opacity: 0
+          }}
+
+          transition={{
+            duration: .9
+          }}
+
+          whileInView={{
+            x: 0,
+            opacity: 1
+          }}
+           className='sm:w-[50%] flex flex-col sm:h-auto h-full gap-[20px]'>
             <h3 className='sm:text-[2rem] text-[1.5rem] poppins font-bold poppins text-[--black]  uppercase'>About Us</h3>
               <p className='poppins text-[0.9rem]'>
                 At Resto Kans, we are committed to providing an exceptional dining experience with a focus on quality, comfort, and convenience. Our team is dedicated to ensuring that every guest enjoys outstanding service, whether they are dining in or ordering from home. With a menu crafted from the finest ingredients, our chefs prepare delicious meals tailored to every taste.
@@ -300,7 +379,7 @@ function Landing() {
                 Sign Up with Us
               </div>
             </button>
-          </div>
+          </motion.div>
         </section>
         <Foot />
         

@@ -14,7 +14,7 @@ function Nav({onNav, nav}) {
         <a href="#" className='poppins text-xl font-bold'>Kans Resto</a>
       </div>
 
-      <div onClick={() => {onNav(!nav); console.log('event')}} className='sm:hidden text-2xl'>
+      <div onClick={() => {onNav(!nav)}} className='sm:hidden text-2xl'>
         <FontAwesomeIcon icon={faBarsStaggered}/>
       </div>
 
