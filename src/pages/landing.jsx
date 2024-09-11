@@ -31,6 +31,8 @@ function Landing() {
 
     const navigate = useNavigate()
     const [nav, setNav] = useState(false)
+    const [isMobileView, setIsMobileView] = useState(window.innerWidth < 640)
+
     
     const objList = [
       {
@@ -41,7 +43,7 @@ function Landing() {
         id: self.crypto.randomUUID()
       },
       {
-        name : "Immortal Veggies goodness",
+        name : "Sausage Delight",
         price : 1600.00, 
         available: 20, 
         img: food10,
@@ -104,7 +106,7 @@ function Landing() {
         id: self.crypto.randomUUID()
       },
       {
-        name : "Immortal Veggies goodness",
+        name : "Soul sage",
         price : 1600.00, 
         available: 20, 
         img: food10,
@@ -163,6 +165,24 @@ function Landing() {
 
     const menuSlide = objList.map((items, i) => <SwiperSlide key={i}> <MenuList name={items.name} img={items.img}/> </SwiperSlide>)
 
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobileView(window.innerWidth < 640);
+      };
+  
+      window.addEventListener('resize', handleResize);
+      
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
+
+    useEffect(() => {
+      console.log(isMobileView)
+    }, [isMobileView])
+
+    const [slides , setSlides] = useState(7) 
+
   return (
     <div>
         <Nav onNav={setNav} nav={nav}/>
@@ -172,10 +192,10 @@ function Landing() {
         </div>
         
 
-        <section className='h-screen flex items-center px-[6em] justify-between'>
-          <div className='w-[50%] flex flex-col gap-[4em]'>
+        <section className='h-screen flex items-center px-[1em] sm:px-[6em] justify-between'>
+          <div className='sm:w-[50%] flex flex-col gap-[4em]'>
             <div className='flex flex-col'>
-              <h1 className='text-[2.5rem] capitalize ubun'>Swift Delivery, Trusted Service <br /> <span className='poppins font-bold'>Experience</span> the best!</h1>
+              <h1 className='text-[2.5rem] capitalize ubun'>Swift Delivery, Trusted Service  <span className='poppins font-bold sm:block'>Experience</span> the best!</h1>
               <p className='poppins text-[1.2rem]'>
                 Craving something yummy?? <br />
                 Place an order
@@ -192,22 +212,22 @@ function Landing() {
             </button>
 
           </div>
-          <div className='w-[50%] h-auto flex items-center justify-end  relative'>
+          <div className='w-[50%] h-auto hidden sm:flex items-center justify-end  relative'>
               <div className=' h-[500px] w-[500px] absolute top-[4em] z-[-2] bg-[--blackv] rounded-[50%] blur-[90px] bg-opacity-10'>
 
               </div>
               <img src={img} alt="" />
           </div>
         </section>
-        <section className='px-[6em] flex flex-col justify-center'>
+        <section className='sm:px-[6em] px-[1em] flex flex-col justify-center'>
 
-          <h2 className='uppercase text-[--black] poppins font-bold text-[2rem] text-center'>Our Menu</h2>
-          <div className='menu  px-[2em]'>
+          <h2 className='uppercase text-[--black] poppins font-bold text-[1.5rem] sm:text-[2rem] text-center'>Our Menu</h2>
+          <div className='menu  sm:px-[2em]'>
               <Swiper
               modules={[Pagination, Navigation]}
               spaceBetween={1}
               loop={true}
-              slidesPerView={7}
+              slidesPerView={isMobileView ? 3 : 7}
               navigation = {true}
               pagination = {{clickable: true}}
               >
@@ -215,16 +235,16 @@ function Landing() {
               </Swiper>
           </div>
         </section>
-        <section className='px-[--pdx] py-[1em]'>
-          <h2 className='text-[2rem] font-bold py-[1em] text-[--black] text-center poppins uppercase '>Categories</h2>
-          <div className='flex justify-between gap-[2em]'>
-            <div className='w-[50%]  h-[200px] bg-[--blackv] rounded-[5px] p-[.5em]'>
+        <section className='sm:px-[--pdx] px-[1em] py-[1em]'>
+          <h2 className='sm:text-[2rem] text-[1.5rem] font-bold py-[1em] text-[--black] text-center poppins uppercase '>Categories</h2>
+          <div className='flex flex-col sm:flex-row justify-between gap-[2em]'>
+            <div className='sm:w-[50%]  h-[200px] bg-[--blackv] rounded-[5px] p-[.5em]'>
               <div className='w-full relative rounded-[3px] h-full  back'>
                 <div className='absolute rounded-[3px] top-0 w-full bg-[#00000091] h-full flex items-center justify-center gap-[2em]'>
                   
-                  <h3 className='text-[2rem] ubun text-white mr-[2em]'>Fast Foods</h3>
+                  <h3 className='sm:text-[2rem] text-[1.5rem] ubun text-white sm:mr-[2em]'>Fast Foods</h3>
 
-                  <ul className='text-[--nav] poppins text-xl list-disc'>
+                  <ul className='text-[--nav] poppins sm:text-xl list-disc'>
                     <li>Snacks</li>
                     <li>Burgers</li>
                     <li>Hot dogs</li>
@@ -238,12 +258,12 @@ function Landing() {
                 </div>
               </div>
             </div>
-            <div className='w-[50%] rounded-[5px] h-[200px] bg-[--blackv] p-[.5em]'>
+            <div className='sm:w-[50%] rounded-[5px] h-[200px] bg-[--blackv] p-[.5em]'>
               <div className='w-full rounded-[5px] relative h-full  back1'>
                 <div className='absolute rounded-[3px] top-0 w-full bg-[#00000091] h-full flex items-center justify-center gap-[2em]'>
-                  <h3 className='text-[2rem] ubun text-white mr-[2em]'>Drinks</h3>
+                  <h3 className='sm:text-[2rem] text-[1.5rem] ubun text-white sm:mr-[2em]'>Drinks</h3>
 
-                      <ul className='text-[--nav] poppins text-xl list-disc'>
+                      <ul className='text-[--nav] poppins sm:text-xl list-disc'>
                         <li>Tea</li>
                         <li>Coffee</li>
                         <li>Soft Drinks</li>
@@ -258,16 +278,16 @@ function Landing() {
             </div>
           </div>
         </section>
-        <section className='  flex justify-between px-[--pdx] items-center py-[2em]'>
+        <section className=' sm:gap-0 gap-[4em]  flex sm:flex-row flex-col-reverse justify-between px-[1em] sm:px-[--pdx] items-center py-[2em]'>
 
           <div className='w-[50%] flex  items-center justify-center relative'>
-              <div className=' h-[500px] w-[500px] absolute top-[2em] z-[-2] bg-[--blackv] rounded-[50%] blur-[90px] bg-opacity-10'>
+              <div className=' sm:h-[500px] h-[240px] w-[240px] sm:w-[500px] absolute top-[2em] z-[-2] bg-[--blackv] rounded-[50%] blur-[90px] bg-opacity-10'>
 
               </div>
-              <img src={img1} className='h-[500px]' alt="" />
+              <img src={img1} className='sm:h-[500px]' alt="" />
           </div>
-          <div className='w-[50%] flex flex-col gap-[20px]'>
-            <h3 className='text-[2rem] poppins font-bold poppins text-[--black]  uppercase'>About Us</h3>
+          <div className='sm:w-[50%] flex flex-col sm:h-auto h-full gap-[20px]'>
+            <h3 className='sm:text-[2rem] text-[1.5rem] poppins font-bold poppins text-[--black]  uppercase'>About Us</h3>
               <p className='poppins text-[0.9rem]'>
                 At Resto Kans, we are committed to providing an exceptional dining experience with a focus on quality, comfort, and convenience. Our team is dedicated to ensuring that every guest enjoys outstanding service, whether they are dining in or ordering from home. With a menu crafted from the finest ingredients, our chefs prepare delicious meals tailored to every taste.
 

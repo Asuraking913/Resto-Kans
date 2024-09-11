@@ -47,6 +47,7 @@
 
 body {
     background-color: var(--bg);
+    /* overflow: scroll; */
 }
 
 /* .back {
