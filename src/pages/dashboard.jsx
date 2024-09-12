@@ -9,13 +9,14 @@ import food3 from "../assets/food9.jpg"
 import food4 from "../assets/food.jpeg"
 import TabBlock from '../components/dashboard/tabBlock'
 import Orders from '../components/dashboard/order'
+import CardForm from '../components/dashboard/cardForm'
 
 function Dashboard() {
 
     const recent = useRef(null)
     const payment = useRef(null)
     const receipts = useRef(null)
-    const [clicked, setClicked] = useState("order")
+    const [clicked, setClicked] = useState("orders")
     
 
 
@@ -162,9 +163,20 @@ function Dashboard() {
     ])
 
     const tabList = tabObj.map((item, i) => <TabBlock key={i} icon={item.icon} header={item.header} number={item.amount}/>)
-    
     // tab items
     const orderList = orders.map((items, i) => <Orders key={i} {...items}/>)
+
+    const handleOrder = () => {
+        setClicked("orders")
+    }
+
+    const handlePayment = () => {
+        setClicked("payments")
+    }
+
+    const handleReceipts = () => {
+        setClicked("receipts")
+    }
 
   return (
     <div>
@@ -190,15 +202,24 @@ function Dashboard() {
         </section>
         <nav className='px-[--pdx]'>
             <ul className='flex mt-[1em] gap-[10px] ubun'>
-                <li ><button  className={`p-[.5em] ${clicked === 'orders' ? ""  : ""} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black] sm:hover:bg-[--nav] bg-[--black] text-[--nav]`}>Recent Orders</button></li>
-                <li ><button  className={`p-[.5em] ${clicked === 'payments' ? ""  : ""} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black] sm:hover:bg-[--nav] bg-[--black] text-[--nav]`}>Payment methods</button></li>
-                <li ><button  className={`p-[.5em] ${clicked === 'receipts' ? ""  : ""} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black] sm:hover:bg-[--nav] bg-[--black] text-[--nav]`}>Receipts</button></li>
+                <li ><button onClick={() => handleOrder()}  className={`p-[.5em] ${clicked === 'orders' ? " sm:hover:bg-[--black] bg-[--nav] text-[--black] sm:hover:text-[--nav]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Recent Orders</button></li>
+                <li ><button onClick={() => handlePayment()}  className={`p-[.5em] ${clicked === 'payments' ? " sm:hover:bg-[--nav] bg-[--nav] sm:hover:text-[--black] text-[--black]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Payment methods</button></li>
+                <li ><button onClick={() => handleReceipts()}  className={`p-[.5em] ${clicked === 'receipts' ? " sm:hover:bg-[--nav] bg-[--nav] sm:hover:text-[--black] text-[--black]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Receipts</button></li>
             </ul>
         </nav>
         <section className='px-[--pdx]'>
-            <div className='flex flex-wrap gap-[1em] py-[1em]'>
+            {
+                clicked == "orders" && 
+                <div className='flex flex-wrap gap-[1em] py-[1em]'>
                 {orderList}
             </div>
+            }
+
+            {clicked == "payments" &&
+                <div className='w-[50%] py-[1em]'>
+                    <CardForm />
+                </div>
+            }
         </section>
     </div>
   )
