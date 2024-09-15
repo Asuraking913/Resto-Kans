@@ -30,12 +30,12 @@ function SignUp({onLogin}) {
               <p className='backdrop-blur-sm absolute py-[8px] top-[-19px] poppins   poppins border-transparent border-[0px] w-[100px] bg-[#AAA8A8] flex items-center justify-center'>or</p>
             </div>
 
-            <button className='p-[10px] bg-[--nav] justify-center flex items-center rounded-[15px] text-[--black] poppins  mt-[1em]' type="submit">
+            <span className='p-[10px] bg-[--nav] justify-center flex items-center rounded-[15px] text-[--black] poppins  mt-[1em]'>
               <div className='flex gap-[1em] capitalize'>
                 <img src={logo1} className='w-[20px] h-[20px]' alt="" />
                 <span>Continue with google</span>
               </div>
-            </button>
+            </span>
 
             <span onClick={() => onLogin(true)} className='text-center text-[0.9rem] cursor-pointer poppins underline hover:opacity-80'>Log In?</span>
 

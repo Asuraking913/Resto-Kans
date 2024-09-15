@@ -390,7 +390,7 @@ function Landing() {
                 <div className='bg-[--black] flex items-center justify-center w-[40px] h-[40px]  text-2xl text-[--nav]'>
                   <FontAwesomeIcon icon={faAngleRight}/>
                 </div>
-                <div className='bg-[--nav] capitalize text-[1.1rem] poppins h-[40px] flex items-center justify-center px-[.5em]'>
+                <div onClick={() => navigate("/authenticate")} className='bg-[--nav] capitalize text-[1.1rem] poppins h-[40px] flex items-center justify-center px-[.5em]'>
                   Sign Up with Us
                 </div>
             </motion.button>

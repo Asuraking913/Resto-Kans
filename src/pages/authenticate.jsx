@@ -1,8 +1,6 @@
 import React from 'react'
 import logo from "../assets/logo.png"
-import { useState } from 'react'
-
-import Nav from '../components/primary-comp/nav'
+import { useState } from 'react'  
 import LoginForm from '../components/authForms/loginForm'
 import SignUp from '../components/authForms/signupform'
 
