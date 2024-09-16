@@ -10,11 +10,11 @@ function LoginForm({onLogin}) {
         <h2 className='text-2xl poppins text-center font-bold text-[--black]'>Login</h2>
             <p className='poppins'>
               <label htmlFor="email">Email Address</label>
-              <input className='block w-full p-[8px] rounded-[10px]' type="email" name="email" id="email" />
+              <input className='block border-[--blackv] border-[1.5px] w-full p-[8px] rounded-[5px]' type="email" name="email" id="email" />
             </p>
             <p>
               <label htmlFor="password">Password</label>
-              <input className='block w-full p-[8px] rounded-[10px]' type="password" name="password" id="password" />
+              <input className='block border-[--blackv] border-[1.5px] w-full p-[8px] rounded-[5px]' type="password" name="password" id="password" />
             </p>
 
             <div className='flex justify-end'>
@@ -23,13 +23,13 @@ function LoginForm({onLogin}) {
               </span>
             </div>
 
-            <button className='p-[10px] bg-[--black] rounded-[15px] text-[--nav] poppins font-bold' type="submit">Log In</button>
+            <button className='p-[10px] bg-[--black] rounded-[5px] shadow-sm shadow-[--blackv] text-[--nav] poppins font-bold' type="submit">Log In</button>
 
             <div className='flex justify-center border-b-[1px] border-[--black] relative mt-[2em]'>
-              <p className='backdrop-blur-sm  absolute top-[-8px] poppins border-transparent border-[0px] w-[100px] bg-[#AAA8A8] flex items-center justify-center'>or</p>
+              <p className='backdrop-blur-md  absolute top-[-8px] poppins border-transparent border-[0px] w-[100px] flex items-center justify-center'>or</p>
             </div>
 
-            <span className='p-[10px] bg-[--nav] justify-center flex items-center rounded-[15px] text-[--black] poppins  mt-[1em]'>
+            <span className='p-[10px] bg-[--nav] justify-center flex items-center rounded-[5px] shadow-sm shadow-[--blackv] text-[--black] poppins  mt-[1em]'>
               <div className='flex gap-[1em] capitalize'>
                 <img src={logo1} className='w-[20px] h-[20px]' alt="" />
                 <span>Continue with google</span>
