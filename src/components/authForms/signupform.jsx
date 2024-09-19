@@ -10,6 +10,7 @@ function SignUp({onLogin}) {
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [password1, setPassword1] = useState("")
   const [toggle, setToggle] = useState(true)
   const [error, setError] = useState("")
   const navigate = useNavigate()
@@ -23,7 +24,7 @@ function SignUp({onLogin}) {
 
   return (
     <div>
-        <form action="#" onSubmit={(e) => handleSumbit(e, setError, onLogin, {email : email, password : password}, setLoading)} className='w-full  flex flex-col gap-[1em] py-[1em]'>
+        <form action="#" onSubmit={(e) => handleSumbit(e, setError, onLogin, {email : email, password : password, password1 : password1}, setLoading)} className='w-full  flex flex-col gap-[10px] py-[1em]'>
 
             <h2 className='text-xl poppins text-center font-bold text-[--black]'>Create An Account</h2>
 
@@ -37,6 +38,11 @@ function SignUp({onLogin}) {
               <label htmlFor="password">Password</label>
               {password !== "" && <FontAwesomeIcon onClick={() => setToggle(!toggle)} icon={faEye} className='absolute top-[2.2em] right-[10px] cursor-pointer'/>}
               <input className='block w-full p-[8px] rounded-[5px] shadow-sm border-[1.5px] border-[--blackv]' type={toggle ? "password" : "text"} required onChange={(e) => setPassword(e.target.value)} name="password" id="password" />
+            </p>
+            <p className='relative'>
+              <label htmlFor="password">Confirm Password</label>
+              {password !== "" && <FontAwesomeIcon onClick={() => setToggle(!toggle)} icon={faEye} className='absolute top-[2.2em] right-[10px] cursor-pointer'/>}
+              <input className='block w-full p-[8px] rounded-[5px] shadow-sm border-[1.5px] border-[--blackv]' type={toggle ? "password" : "text"} required onChange={(e) => setPassword1(e.target.value)} name="password1" id="password1" />
             </p>
 
             {/* <div className='flex justify-end'>

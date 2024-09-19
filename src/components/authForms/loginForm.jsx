@@ -1,20 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo1 from "../../assets/logo1.svg"
 import { motion, AnimatePresence } from 'framer-motion'
+import { handleLogin } from '../../utils/authenticate'
 
 function LoginForm({onLogin}) {
+  const [error, setError] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
+
 
 
   return (
-    <form action="#" className='w-full flex flex-col gap-[1em]'>
+    <form action="#" onSubmit={(e) => handleLogin({
+        e : e,
+        onError : setError, 
+        data : {
+          email : email, 
+          password : password 
+        }, 
+
+        onLoading : setLoading
+      })} className='w-full flex flex-col gap-[1em]'>
+
+        {error && <p className='poppins text-center'>{error}</p>}
+
         <h2 className='text-2xl poppins text-center font-bold text-[--black]'>Login</h2>
             <p className='poppins'>
               <label htmlFor="email">Email Address</label>
-              <input className='block border-[--blackv] border-[1.5px] w-full p-[8px] rounded-[5px]' type="email" name="email" id="email" />
+              <input className='block border-[--blackv] border-[1.5px] w-full p-[8px] rounded-[5px]' type="email" onChange={(e) => setEmail(e.target.value)} name="email" id="email" />
             </p>
             <p>
               <label htmlFor="password">Password</label>
-              <input className='block border-[--blackv] border-[1.5px] w-full p-[8px] rounded-[5px]' type="password" name="password" id="password" />
+              <input className='block border-[--blackv] border-[1.5px] w-full p-[8px] rounded-[5px]' type="password" onChange={(e) => setPassword(e.target.value)} name="password" id="password" />
             </p>
 
             <div className='flex justify-end'>
