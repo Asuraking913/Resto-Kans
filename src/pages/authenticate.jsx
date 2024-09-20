@@ -3,6 +3,7 @@ import logo from "../assets/logo.png"
 import { useState } from 'react'  
 import LoginForm from '../components/authForms/loginForm'
 import SignUp from '../components/authForms/signupform'
+import Nav from '../components/primary-comp/nav'
 
 function Authenticate() {
 

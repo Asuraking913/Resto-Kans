@@ -15,6 +15,7 @@ import food10 from "../assets/food10.jpeg"
 import cart from "../assets/cart.png"
 import times from "../assets/times.png"
 import {motion, AnimatePresence} from "framer-motion"
+import Axios from '../utils/Axios'
 
 function OrderPage() {
 
@@ -33,6 +34,17 @@ useEffect(() => {
     }
   })
 }, [change])
+
+const handleFoods = async () => {
+  const response = await Axios.get("/api/product/").then(response => {
+    console.log(response.data)
+  })
+}
+
+useEffect(() => {
+          handleFoods()
+}, [])
+
 
 
 const [foodObjects, setFoodObjects] = useState([

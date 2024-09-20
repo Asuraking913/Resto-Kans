@@ -1,31 +1,47 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import logo1 from "../../assets/logo1.svg"
 import { motion, AnimatePresence } from 'framer-motion'
 import { handleLogin } from '../../utils/authenticate'
+import { useNavigate } from 'react-router-dom'
+import { useInterval } from 'react-use'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 function LoginForm({onLogin}) {
+  const navigate = useNavigate()
   const [error, setError] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState(false)
 
+  useEffect(() => {
+    console.log(result)
+    result && navigate("/menu")
+  }, [result])
+
+  useInterval(() => {
+    setError("")
+  }, 6000,[error])
 
 
   return (
     <form action="#" onSubmit={(e) => handleLogin({
         e : e,
         onError : setError, 
+        onResult : setResult,
         data : {
           email : email, 
-          password : password 
+          password : password , 
         }, 
 
         onLoading : setLoading
       })} className='w-full flex flex-col gap-[1em]'>
 
-        {error && <p className='poppins text-center'>{error}</p>}
-
         <h2 className='text-2xl poppins text-center font-bold text-[--black]'>Login</h2>
+        {error && <p className='poppins text-center text-red-400'>{error}</p>}
+
+
             <p className='poppins'>
               <label htmlFor="email">Email Address</label>
               <input className='block border-[--blackv] border-[1.5px] w-full p-[8px] rounded-[5px]' type="email" onChange={(e) => setEmail(e.target.value)} name="email" id="email" />
@@ -41,7 +57,7 @@ function LoginForm({onLogin}) {
               </span>
             </div>
 
-            <button className='p-[10px] bg-[--black] rounded-[5px] shadow-sm shadow-[--blackv] text-[--nav] poppins font-bold' type="submit">Log In</button>
+            <button className='p-[10px] bg-[--black] rounded-[5px] shadow-sm shadow-[--blackv] text-[--nav] poppins font-bold' type="submit">{loading ? <FontAwesomeIcon icon={faSpinner} className='text-[1.4rem] text-[--nav] animate-spin'/> : "Log In"}</button>
 
             <div className='flex justify-center border-b-[1px] border-[--black] relative mt-[2em]'>
               <p className='backdrop-blur-md  absolute top-[-8px] poppins border-transparent border-[0px] w-[100px] flex items-center justify-center'>or</p>

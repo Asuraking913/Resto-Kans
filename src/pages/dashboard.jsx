@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Nav from '../components/primary-comp/nav'
 import SideBar from '../components/primary-comp/sidebar'
 import { useState } from 'react'
@@ -10,6 +10,9 @@ import food4 from "../assets/food.jpeg"
 import TabBlock from '../components/dashboard/tabBlock'
 import Orders from '../components/dashboard/order'
 import CardForm from '../components/dashboard/cardForm'
+import handleUpload from '../utils/tabswitch'
+import { handleOrder, handlePayment, handleReceipts } from '../utils/tabswitch'
+import Upload from '../components/dashboard/upload'
 
 function Dashboard() {
 
@@ -17,8 +20,6 @@ function Dashboard() {
     const payment = useRef(null)
     const receipts = useRef(null)
     const [clicked, setClicked] = useState("orders")
-    
-
 
     const [nav, setNav] = useState(false)
     const [tabObj, setTabObj] = useState([
@@ -166,17 +167,8 @@ function Dashboard() {
     // tab items
     const orderList = orders.map((items, i) => <Orders key={i} {...items}/>)
 
-    const handleOrder = () => {
-        setClicked("orders")
-    }
+    
 
-    const handlePayment = () => {
-        setClicked("payments")
-    }
-
-    const handleReceipts = () => {
-        setClicked("receipts")
-    }
 
   return (
     <div>
@@ -202,9 +194,10 @@ function Dashboard() {
         </section>
         <nav className='px-[--pdx]'>
             <ul className='flex mt-[1em] gap-[10px] ubun'>
-                <li ><button onClick={() => handleOrder()}  className={`p-[.5em] ${clicked === 'orders' ? " sm:hover:bg-[--black] bg-[--nav] text-[--black] sm:hover:text-[--nav]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Recent Orders</button></li>
-                <li ><button onClick={() => handlePayment()}  className={`p-[.5em] ${clicked === 'payments' ? " sm:hover:bg-[--nav] bg-[--nav] sm:hover:text-[--black] text-[--black]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Payment methods</button></li>
-                <li ><button onClick={() => handleReceipts()}  className={`p-[.5em] ${clicked === 'receipts' ? " sm:hover:bg-[--nav] bg-[--nav] sm:hover:text-[--black] text-[--black]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Receipts</button></li>
+                <li ><button onClick={() => handleOrder(setClicked)}  className={`p-[.5em] ${clicked === 'orders' ? " sm:hover:bg-[--black] bg-[--nav] text-[--black] sm:hover:text-[--nav]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Recent Orders</button></li>
+                <li ><button onClick={() => handleUpload(setClicked)}  className={`p-[.5em] ${clicked === 'upload' ? " sm:hover:bg-[--black] bg-[--nav] text-[--black] sm:hover:text-[--nav]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Upload</button></li>
+                <li ><button onClick={() => handlePayment(setClicked)}  className={`p-[.5em] ${clicked === 'payments' ? " sm:hover:bg-[--nav] bg-[--nav] sm:hover:text-[--black] text-[--black]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Payment methods</button></li>
+                <li ><button onClick={() => handleReceipts(setClicked)}  className={`p-[.5em] ${clicked === 'receipts' ? " sm:hover:bg-[--nav] bg-[--nav] sm:hover:text-[--black] text-[--black]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Receipts</button></li>
             </ul>
         </nav>
         <section className='px-[--pdx]'>
@@ -219,6 +212,9 @@ function Dashboard() {
                 <div className='w-[50%] py-[1em]'>
                     <CardForm />
                 </div>
+            }
+            {
+               clicked == "upload" && <Upload />
             }
         </section>
     </div>

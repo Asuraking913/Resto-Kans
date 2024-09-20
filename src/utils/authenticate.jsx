@@ -26,23 +26,21 @@ const handleSumbit = async (e, onError, onLogin, data, onLoading) => {
 
   export const handleLogin = async (data) => {
     data.e.preventDefault() 
-
     data.onLoading(true)
-    const response = await Axios.post("/api/token/", data.data).then(response => {
+
+    try{
+      const response = await Axios.post("/api/token/", data.data)
       console.log(response.data)
-      if(response.status == 201) {
-        // onLogin(t => !t)
-        // onLoading(false)
+      if (response.status == 200) {
+        data.onResult(true)
+        localStorage.setItem('access', response.data.access)
       }
-    }).catch((error) => {
-      
-      if(error) {
-        // onError(error.response.data.email)
-        console.log(error)
-        data.onLoading(false)
-      }
-    })
-    
+    }
+    catch(error) {
+          console.log(error)
+          data.onError('Invalid credentials')
+          data.onLoading(false)
+    }  
   }
 
   export default handleSumbit
