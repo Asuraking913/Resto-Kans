@@ -1,8 +1,9 @@
-const uploader = (event, onImage) => {
+const uploader = (event, onImage, onImageData) => {
 
   // return
   const file = event.target.files[0]
   if (file && allowedExtensions(file.name)) {
+      onImageData(file)
       const reader = new FileReader();
       reader.onloadend = async () => {
           onImage(t => reader.result)

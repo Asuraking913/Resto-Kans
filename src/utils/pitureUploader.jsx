@@ -7,8 +7,11 @@ const handlePicture = (e, fileInput) => {
 export const handleSubmit = async (e, data) => {
     e.preventDefault()
 
+    data.onLoading(true)
     if(data.img == "") {
+        data.onLoading(false)
         data.onError("Please select an image")
+        return
     }
 
     let formData = new FormData()
@@ -22,9 +25,21 @@ export const handleSubmit = async (e, data) => {
         // console.log(pair[0]+ ', ' + pair[1]);
         }
 
-    const response = await Axios.post("/api/product/create", formData).then(response => {
-        console.log(response.data)
-    })
+    try{
+        const response = await Axios.post("/api/product/", formData).then(response => {
+            console.log(response.data)
+            if (response.status == 201) {
+                data.onLoading(false)
+                data.ref.current.value = ""
+
+            }
+        })
+    }
+
+    catch(error) {
+        data.onLoading(false)
+        data.onError("An Error Occured")
+    }
 
 }
 

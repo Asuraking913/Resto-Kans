@@ -20,5 +20,19 @@ Axios.interceptors.request.use((config) => {
         }
     }
 )
+
+Axios.interceptors.response.use((response) => {
+    return response
+
+
+}, 
+    (error) => {
+        let originalRequest = error.config;
+        if(error.response.status == 401 && !originalRequest._retry) {
+            localStorage.clear()
+            return Axios(originalRequest)
+        }
+    }
+)
     
 export default Axios
