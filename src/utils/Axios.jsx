@@ -30,7 +30,13 @@ Axios.interceptors.response.use((response) => {
         let originalRequest = error.config;
         if(error.response.status == 401 && !originalRequest._retry) {
             localStorage.clear()
+            originalRequest = true
+            try{
             return Axios(originalRequest)
+            }
+            catch(err) {
+                return Promise.reject(err)
+            }
         }
     }
 )

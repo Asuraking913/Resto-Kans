@@ -21,13 +21,12 @@ export const handleSubmit = async (e, data) => {
     formData.append('category', data.category)
     formData.append('image', data.img)
 
-    for (var pair of formData.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]);
-        }
+    // for (var pair of formData.entries()) {
+    //     console.log(pair[0]+ ', ' + pair[1]);
+    //     }
 
     try{
         const response = await Axios.post("/api/product/", formData).then(response => {
-            console.log(response.data)
             if (response.status == 201) {
                 data.nameRef.current.value = ""
                 data.catRef.current.value = ""

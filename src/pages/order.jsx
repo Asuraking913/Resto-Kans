@@ -17,6 +17,7 @@ import times from "../assets/times.png"
 import {motion, AnimatePresence} from "framer-motion"
 import Axios from '../utils/Axios'
 import fetchFoods from '../utils/order/fetchProducts'
+import OrderPrev from '../components/cartOrder/orderPreview'
 
 function OrderPage() {
 
@@ -25,6 +26,7 @@ function OrderPage() {
 
 const [duplicate, setDuplicate] = useState([])
 const [deleted, setDeleted] = useState([])
+const [order, setOrder] = useState(false)
 
 const [change, setChange] = useState(0)
 
@@ -38,132 +40,132 @@ useEffect(() => {
 
 
 const [foodObjects, setFoodObjects] = useState([
-  {
-    name : "Sumptous Fried Fries",
-    price : 2500.00, 
-    available: 40, 
-    img: food1, 
-    id: self.crypto.randomUUID()
-  },
-  {
-    name : "Immortal Veggies goodness",
-    price : 1600.00, 
-    available: 20, 
-    img: food10,
-    id: self.crypto.randomUUID()
-  },
-  {
-    name : "Pancakes",
-    price : 9000.00, 
-    available: 10, 
-    img: food3, 
-    id: self.crypto.randomUUID()
-  },
-  {
-    name : "Buger",
-    price : 3000.00, 
-    available: 30, 
-    img: food4, 
-    id: self.crypto.randomUUID()
-  },
-  {
-    name : "Veggies goodness",
-    price : 1400.00, 
-    available: 5, 
-    img: food5, 
-    id: self.crypto.randomUUID()
-  },
-  {
-    name : "Delicacy",
-    price : 4000.00, 
-    available: 30, 
-    img: food6, 
-    id: self.crypto.randomUUID()
-  },
-  {
-    name : "Delicacy",
-    price : 1900.00, 
-    available: 10, 
-    img: food7, 
-    id: self.crypto.randomUUID()
-  },
-  {
-    name : "pizza",
-    price : 20000.00, 
-    available: 50, 
-    img: food8, 
-    id: self.crypto.randomUUID()
-  },
-  {
-    name : "Pizzas",
-    price : 15000.00, 
-    available: 15, 
-    img: food9, 
-    id: self.crypto.randomUUID()
-  },
-  {
-    name : "Sumptous Fried Fries",
-    price : 2500.00, 
-    available: 40, 
-    img: food1, 
-    id: self.crypto.randomUUID()
-  },
-  {
-    name : "Immortal Veggies goodness",
-    price : 1600.00, 
-    available: 20, 
-    img: food10,
-    id: self.crypto.randomUUID()
-  },
-  {
-    name : "Pancakes",
-    price : 9000.00, 
-    available: 10, 
-    img: food3, 
-    id: self.crypto.randomUUID()
-  },
-  {
-    name : "Buger",
-    price : 3000.00, 
-    available: 30, 
-    img: food4, 
-    id: self.crypto.randomUUID()
-  },
-  {
-    name : "Veggies goodness",
-    price : 1400.00, 
-    available: 5, 
-    img: food5, 
-    id: self.crypto.randomUUID()
-  },
-  {
-    name : "Delicacy",
-    price : 4000.00, 
-    available: 30, 
-    img: food6, 
-    id: self.crypto.randomUUID()
-  },
-  {
-    name : "Delicacy",
-    price : 1900.00, 
-    available: 10, 
-    img: food7, 
-    id: self.crypto.randomUUID()
-  },
-  {
-    name : "pizza",
-    price : 20000.00, 
-    available: 50, 
-    img: food8, 
-    id: self.crypto.randomUUID()
-  },
-  {
-    name : "Pizzas",
-    price : 15000.00, 
-    available: 15, 
-    img: food9, 
-    id: self.crypto.randomUUID()
-  },
+  // {
+  //   name : "Sumptous Fried Fries",
+  //   price : 2500.00, 
+  //   available: 40, 
+  //   img: food1, 
+  //   id: self.crypto.randomUUID()
+  // },
+  // {
+  //   name : "Immortal Veggies goodness",
+  //   price : 1600.00, 
+  //   available: 20, 
+  //   img: food10,
+  //   id: self.crypto.randomUUID()
+  // },
+  // {
+  //   name : "Pancakes",
+  //   price : 9000.00, 
+  //   available: 10, 
+  //   img: food3, 
+  //   id: self.crypto.randomUUID()
+  // },
+  // {
+  //   name : "Buger",
+  //   price : 3000.00, 
+  //   available: 30, 
+  //   img: food4, 
+  //   id: self.crypto.randomUUID()
+  // },
+  // {
+  //   name : "Veggies goodness",
+  //   price : 1400.00, 
+  //   available: 5, 
+  //   img: food5, 
+  //   id: self.crypto.randomUUID()
+  // },
+  // {
+  //   name : "Delicacy",
+  //   price : 4000.00, 
+  //   available: 30, 
+  //   img: food6, 
+  //   id: self.crypto.randomUUID()
+  // },
+  // {
+  //   name : "Delicacy",
+  //   price : 1900.00, 
+  //   available: 10, 
+  //   img: food7, 
+  //   id: self.crypto.randomUUID()
+  // },
+  // {
+  //   name : "pizza",
+  //   price : 20000.00, 
+  //   available: 50, 
+  //   img: food8, 
+  //   id: self.crypto.randomUUID()
+  // },
+  // {
+  //   name : "Pizzas",
+  //   price : 15000.00, 
+  //   available: 15, 
+  //   img: food9, 
+  //   id: self.crypto.randomUUID()
+  // },
+  // {
+  //   name : "Sumptous Fried Fries",
+  //   price : 2500.00, 
+  //   available: 40, 
+  //   img: food1, 
+  //   id: self.crypto.randomUUID()
+  // },
+  // {
+  //   name : "Immortal Veggies goodness",
+  //   price : 1600.00, 
+  //   available: 20, 
+  //   img: food10,
+  //   id: self.crypto.randomUUID()
+  // },
+  // {
+  //   name : "Pancakes",
+  //   price : 9000.00, 
+  //   available: 10, 
+  //   img: food3, 
+  //   id: self.crypto.randomUUID()
+  // },
+  // {
+  //   name : "Buger",
+  //   price : 3000.00, 
+  //   available: 30, 
+  //   img: food4, 
+  //   id: self.crypto.randomUUID()
+  // },
+  // {
+  //   name : "Veggies goodness",
+  //   price : 1400.00, 
+  //   available: 5, 
+  //   img: food5, 
+  //   id: self.crypto.randomUUID()
+  // },
+  // {
+  //   name : "Delicacy",
+  //   price : 4000.00, 
+  //   available: 30, 
+  //   img: food6, 
+  //   id: self.crypto.randomUUID()
+  // },
+  // {
+  //   name : "Delicacy",
+  //   price : 1900.00, 
+  //   available: 10, 
+  //   img: food7, 
+  //   id: self.crypto.randomUUID()
+  // },
+  // {
+  //   name : "pizza",
+  //   price : 20000.00, 
+  //   available: 50, 
+  //   img: food8, 
+  //   id: self.crypto.randomUUID()
+  // },
+  // {
+  //   name : "Pizzas",
+  //   price : 15000.00, 
+  //   available: 15, 
+  //   img: food9, 
+  //   id: self.crypto.randomUUID()
+  // },
   
 ])
 
@@ -180,6 +182,11 @@ const [cartBar, setCartBar] = useState(false)
 
   return (
     <div className=' '>
+
+
+      {/* Preview */}
+      {order && <OrderPrev onOrder={setOrder} items={selectedItems.filter(item => !(deleted.includes(item.id)))}/>}
+
         <Nav onNav={setNav} nav={nav}/>
         <div onClick={() => selectedItems.reverse().filter(item => !(deleted.includes(item.id))).length > 0  && setCartBar(!cartBar)} className={`fixed ${!cartBar ? 'top-[80%]' : 'top-[12%]' } bg-[--bg] p-2 sm:hidden shadow-md shadow-black rounded-[50%] right-[1em] z-[4]`}>
           <div className='relative'>
@@ -229,7 +236,7 @@ const [cartBar, setCartBar] = useState(false)
           }
           </AnimatePresence>
           <div className='hidden sm:block'>
-            <CartBar  selectedItems={selectedItems.reverse().filter(item => !(deleted.includes(item.id)))} onDelete={setDeleted} onChange={setChange} change={change}/>
+            <CartBar onOrder={setOrder}  selectedItems={selectedItems.reverse().filter(item => !(deleted.includes(item.id)))} onDelete={setDeleted} onChange={setChange} change={change}/>
           </div>
         </section>
     </div>

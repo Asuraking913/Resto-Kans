@@ -2,20 +2,20 @@ import React, { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinus, faNairaSign, faPlusCircle, faTrash, } from '@fortawesome/free-solid-svg-icons'
+import handleOrders from '../../utils/order/handleOrders'
 
 
-
-function CartBar({selectedItems, onChange}) {
+function CartBar({selectedItems, onChange, onOrder}) {
 
     // const [visible, setVisible] = useState(false)
     const cartBox = useRef()
     const total = selectedItems.reverse().filter(item => item.quantity != 0).reduce((value, item) => {
         if(item.quantity > 1) {
-            let newValue = value + item.price * item.quantity
+            let newValue = value + Math.floor(item.price) * item.quantity
             return newValue
         }
 
-        let newValue = value + item.price 
+        let newValue = value + Math.floor(item.price) 
 
         return newValue
     }, 0)
@@ -104,13 +104,17 @@ function CartBar({selectedItems, onChange}) {
         </div>
         <h2>Payment Summary</h2>
         <ul className='flex flex-col gap-1'>
-            <li className='flex justify-between text-[0.8rem] text-[--black]'><p>Subtotal</p><p><FontAwesomeIcon icon={faNairaSign}/>{selectedItems.filter(items => items.quantity != 0).length > 0 ? total.toLocaleString() : "0.00"}</p></li>
+            <li className='flex justify-between text-[0.8rem] text-[--black]'><p>Subtotal</p><p><FontAwesomeIcon icon={faNairaSign}/>{selectedItems.filter(items => items.quantity != 0).length > 0 ? total : "0.00"}</p></li>
             <li className='flex justify-between text-[0.8rem] text-[--black]'><p>Discount Sales</p><p><FontAwesomeIcon icon={faNairaSign}/>{"0.00"}</p></li>
             {/* <li className='flex justify-between text-[0.8rem] text-[--black]'><p>Total tax</p><p><FontAwesomeIcon icon={faNairaSign}/>{selectedItems.filter(items => items.quantity != 0).length > 0 ? total : "0.00"}</p></li> */}
             <hr  className='bg-[--black] border-black'/>
-            <li className='flex justify-between text-[0.8rem] text-[--black]'><p>Total</p><p><FontAwesomeIcon icon={faNairaSign}/>{selectedItems.filter(items => items.quantity != 0).length > 0 ? total.toLocaleString() : "0.00"}</p></li>
+            <li className='flex justify-between text-[0.8rem] text-[--black]'><p>Total</p><p><FontAwesomeIcon icon={faNairaSign}/>{selectedItems.filter(items => items.quantity != 0).length > 0 ? total : "0.00"}</p></li>
         </ul>
-        <button className='bg-[--black] p-[.5em] text-[--nav] rounded-[2em]'>Order Now</button>
+        <button onClick={() => {
+            if(selectedItems.filter(items => items.quantity != 0).length > 0) {
+                onOrder(true)
+            }
+        }} className='bg-[--black] p-[.5em] text-[--nav] rounded-[2em]'>Order Now</button>
     </div>
   )
 }
