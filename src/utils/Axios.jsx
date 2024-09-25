@@ -38,6 +38,8 @@ Axios.interceptors.response.use((response) => {
                 return Promise.reject(err)
             }
         }
+        
+        return Promise.reject(error)
     }
 )
     

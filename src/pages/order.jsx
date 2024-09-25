@@ -183,7 +183,6 @@ const [cartBar, setCartBar] = useState(false)
   return (
     <div className=' '>
 
-
       {/* Preview */}
       {order && <OrderPrev onOrder={setOrder} items={selectedItems.filter(item => !(deleted.includes(item.id)))}/>}
 

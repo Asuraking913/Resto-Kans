@@ -1,25 +1,31 @@
 import Axios from "../Axios"
 
-const handleOrders = (itemsList, onLoading) => {
+const handleOrders = async (itemsList, onLoading, onError, onStatus) => {
+        onLoading(true)
         const new_data = itemsList.filter(items => items.quantity != 0)
         const productIds = new_data.map(item => ({
-            product : item.id
+            product : item.id, 
+            quantity : item.quantity
         }))
 
         console.log(productIds) 
         
-        productIds.forEach( async items => {
-
-            try{
-                const response = await Axios.post("api/order/", items).then(response => {
-                    console.log(response)
-                })
+    try{
+            const response = await Axios.post("api/order/", {"order" : productIds})
+            
+            if(response.status == 201) {
+                onLoading(false)
+                onError({status : true, msg: "Order completed successfully"})
+                onStatus(true)
+                // receipts func
             }
-            catch(error) {
-                console.log(error)
-            }
 
-        })
+
+        } catch(error) {
+            onError({status : false, msg : "Some went wrong, contact the developer"})
+            onLoading(false)
+    }
 }
+
 
 export default handleOrders

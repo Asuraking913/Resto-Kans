@@ -9,7 +9,7 @@ const handleSumbit = async (e, onError, onLogin, data, onLoading) => {
     }
     
     onLoading(true)
-    const response = await Axios.post("/api/create/user/", data).then(response => {
+    const response = await Axios.post("/api/auth/create/user/", data).then(response => {
       console.log(response, 'event')
       if(response.status == 201) {
         onLogin(t => !t)
@@ -29,7 +29,7 @@ const handleSumbit = async (e, onError, onLogin, data, onLoading) => {
     data.onLoading(true)
 
     try{
-      const response = await Axios.post("/api/token/", data.data)
+      const response = await Axios.post("/api/auth/login/user", data.data)
       console.log(response.data)
       if (response.status == 200) {
         data.onResult(true)
