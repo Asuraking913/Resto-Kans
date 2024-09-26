@@ -1,24 +1,19 @@
 import Axios from "../Axios"
 
-const fetchOrder = async (onOrder, onLoading) => {
+const fetchreceipts = async (onLoading, onReceipts) => {
     onLoading(true)
-    try{
-        const response = await Axios.get("api/order/")
+    const response = await Axios.get("/api/order/").then(response => {
+        // console.log(response.data)
         if(response.status == 200) {
             const object = response.data.data.map(item => ({
                 orderId : item.orderId, 
                 date : item.date, 
                 items : item.products
             }))
-            onOrder(prev => [...object])
-            onLoading(false)
+           onReceipts([...object])
         }
-    }
-
-    catch(error) {
         onLoading(false)
-        console.log(error)
-    }
+    })
 }
 
-export default fetchOrder
+export default fetchreceipts

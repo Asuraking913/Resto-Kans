@@ -46,7 +46,7 @@ function Upload() {
     }, 3000, [error])
 
   return (
-    <section className='w-full h-[300px] mt-[1em] flex gap-[1em]'>
+    <section className='w-full h-[300px] mt-[1em] flex sm:flex-row flex-col  gap-[1em]'>
 
         {img == "" ? <form >
             <div onClick={(e) => handlePicture(e, fileInput)} className='w-[400px] h-[300px] rounded-[5px] cursor-pointer border-dashed border-[--black] border-[1.5px] flex items-center justify-center flex-col'>

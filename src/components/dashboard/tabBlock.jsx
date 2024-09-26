@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function TabBlock({icon, header, number}) {
   return (
-    <div className='flex min-w-[150px] gap-[1.5em] justify-between p-[10px] h-[80px] px-[15px] bg-[--nav] rounded-[4px] shadow-sm shadow-[--blackv]'>
+    <div className='flex min-w-[150px] gap-[1.5em] justify-between p-[10px] h-[80px] px-[15px]'>
         <div className='flex items-center text-[1.5rem]'>
             <FontAwesomeIcon className='text-[--black]' icon={icon}/>
         </div>

@@ -14,13 +14,17 @@ import handleUpload from '../utils/tabswitch'
 import { handleOrder, handlePayment, handleReceipts } from '../utils/tabswitch'
 import Upload from '../components/dashboard/upload'
 import fetchOrder from '../utils/dashboard/fetchorders'
+import Loading from '../components/primary-comp/loading'
+import fetchreceipts from '../utils/dashboard/fetchReceipts'
+import Receipts from '../components/dashboard/receipts'
 
 function Dashboard() {
 
-    const recent = useRef(null)
-    const payment = useRef(null)
-    const receipts = useRef(null)
+    // const recent = useRef(null)
+    // const payment = useRef(null)
+    // const receipts = useRef(null)
     const [clicked, setClicked] = useState("orders")
+    const [loading, setLoading] = useState(false)
 
     const [nav, setNav] = useState(false)
     const [tabObj, setTabObj] = useState([
@@ -44,141 +48,30 @@ function Dashboard() {
 
    
     const [orders, setOrders] = useState([
-        // {
-        //     orderId: self.crypto.randomUUID(), 
-        //     date : "may 12, 2024",
-        //     items : [
-        //         {
-        //             name : "Pancakes",
-        //             price : 1000, 
-        //             quantity : 4, 
-        //             img: food2
-        //         }, 
-        //         {
-        //             name : "Sausage roll",
-        //             price : 800, 
-        //             quantity : 10, 
-        //             img: food3
-        //         }, 
-        //         {
-        //             name : "Pancakes",
-        //             price : 1000, 
-        //             quantity : 6, 
-        //             img: food
-        //         }
-        //     ]
-        // }, 
-        // {
-        //     orderId: self.crypto.randomUUID(), 
-        //     date : "september 12, 2024",
-        //     items : [
-        //         {
-        //             name : "Pancakes",
-        //             price : 15000, 
-        //             quantity : 4, 
-        //             img: food3
-        //         }, 
-        //         {
-        //             name : "Sausage roll",
-        //             price : 1900, 
-        //             quantity : 10, 
-        //             img: food4
-        //         }, 
-        //         {
-        //             name : "Pancakes",
-        //             price : 1000, 
-        //             quantity : 6, 
-        //             img: food2
-        //         }
-        //     ]
-        // }, 
-        // {
-        //     orderId: self.crypto.randomUUID(), 
-        //     date : "December 23, 2024",
-        //     items : [
-        //         {
-        //             name : "Pancakes",
-        //             price : 1000, 
-        //             quantity : 4, 
-        //             img: food
-        //         }, 
-        //         {
-        //             name : "Sausage roll",
-        //             price : 1000, 
-        //             quantity : 10, 
-        //             img: food2
-        //         }, 
-        //         {
-        //             name : "Pancakes",
-        //             price : 1000, 
-        //             quantity : 6, 
-        //             img: food
-        //         }
-        //     ]
-        // },
-        // {
-        //     orderId: self.crypto.randomUUID(), 
-        //     date : "December 23, 2024",
-        //     items : [
-        //         {
-        //             name : "Pancakes",
-        //             price : 1000, 
-        //             quantity : 4, 
-        //             img: food
-        //         }, 
-        //         {
-        //             name : "Sausage roll",
-        //             price : 1000, 
-        //             quantity : 10, 
-        //             img: food2
-        //         }, 
-        //         {
-        //             name : "Pancakes",
-        //             price : 1000, 
-        //             quantity : 6, 
-        //             img: food
-        //         }
-        //     ]
-        // },
-        // {
-        //     orderId: self.crypto.randomUUID(), 
-        //     date : "December 23, 2024",
-        //     items : [
-        //         {
-        //             name : "Pancakes",
-        //             price : 1000, 
-        //             quantity : 4, 
-        //             img: food
-        //         }, 
-        //         {
-        //             name : "Sausage roll",
-        //             price : 1000, 
-        //             quantity : 10, 
-        //             img: food2
-        //         }, 
-        //         {
-        //             name : "Pancakes",
-        //             price : 1000, 
-        //             quantity : 6, 
-        //             img: food
-        //         }
-        //     ]
-        // }
+    ])
+    const [receipts, setReceipts] = useState([
     ])
 
     const tabList = tabObj.map((item, i) => <TabBlock key={i} icon={item.icon} header={item.header} number={item.amount}/>)
     // tab items
     const orderList = orders.map((items, i) => <Orders key={i} {...items}/>)
+    const receiptList = receipts.map((items, i) => <Receipts key={i} {...items}/>)
 
     
 
     useEffect(() => {
-        fetchOrder(setOrders)
-    }, [])
+        setOrders([])
+        if(clicked == "orders") {
+            fetchOrder(setOrders, setLoading)
+        }
+        if(clicked == "receipts") {
+            fetchreceipts(setLoading, setReceipts)
+        }
+    }, [clicked])
 
-    console.log(orders)
-
-
+    useEffect(() => {
+        console.log(receipts)
+    }, [receipts])
 
   return (
     <div>
@@ -188,8 +81,8 @@ function Dashboard() {
             <SideBar />
         </div>
 
-        <section className=' px-[--pdx] py-[.5em] pt-[4em] flex flex-col gap-[.5em]'>
-            <div className='m-[10px]'>
+        <section className=' sm:pl-[--pdx] py-[.5em] pt-[4em] flex sm:flex-row flex-col gap-[.5em] items-center'>
+            <div className='m-[10px] sm:w-[50%]'>
                 <div className='  '>
                     <h1 className='text-[2rem] poppins font-bold'>Welcome to Your DashBoard Israel!!</h1>
                     <p className='poppins text-[0.9rem]'>View your recent transactions and activity</p>
@@ -197,34 +90,40 @@ function Dashboard() {
             </div>
 
             {/* Tab Block */}
-            <div className='flex gap-[1em]'>
+            <div className='flex gap-[0em] ml-[1em] sm:pl-0 sm:w-[50%] sm:flex-nowrap flex-wrap sm:px-0 px-[1em] bg-[--nav] justify-between mt-[10px] rounded-[5px] mr-[10px]'>
                 {tabList}
             </div>
             
         </section>
-        <nav className='px-[--pdx]'>
-            <ul className='flex mt-[1em] gap-[10px] ubun'>
+        <nav className='sm:px-[--pdx] px-[1em]'>
+            <ul className='flex mt-[1em] sm:w-auto w-[90%]  gap-[10px] sm:justify-normal justify-between ubun flex-wrap'>
                 <li ><button onClick={() => handleOrder(setClicked)}  className={`p-[.5em] ${clicked === 'orders' ? " sm:hover:bg-[--black] bg-[--nav] text-[--black] sm:hover:text-[--nav]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Recent Orders</button></li>
                 <li ><button onClick={() => handleUpload(setClicked)}  className={`p-[.5em] ${clicked === 'upload' ? " sm:hover:bg-[--black] bg-[--nav] text-[--black] sm:hover:text-[--nav]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Upload</button></li>
                 <li ><button onClick={() => handlePayment(setClicked)}  className={`p-[.5em] ${clicked === 'payments' ? " sm:hover:bg-[--nav] bg-[--nav] sm:hover:text-[--black] text-[--black]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Payment methods</button></li>
                 <li ><button onClick={() => handleReceipts(setClicked)}  className={`p-[.5em] ${clicked === 'receipts' ? " sm:hover:bg-[--nav] bg-[--nav] sm:hover:text-[--black] text-[--black]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  rounded-[5px] sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Receipts</button></li>
             </ul>
         </nav>
-        <section className='px-[--pdx]'>
+        <section className='sm:px-[--pdx] px-[1em]'>
             {
-                clicked == "orders" && 
+                clicked === "orders" && 
                 <div className='flex flex-wrap gap-[1em] py-[1em]'>
-                {orderList}
-            </div>
+                    {loading || orderList.length === 0 ? <Loading /> : orderList}
+                </div>
             }
 
-            {clicked == "payments" &&
+            {clicked === "payments" &&
                 <div className='w-[50%] py-[1em]'>
                     <CardForm />
                 </div>
             }
             {
-               clicked == "upload" && <Upload />
+               clicked === "upload" && <Upload />
+            }
+            {
+               clicked === "receipts" && 
+            <div className='flex flex-wrap gap-[1em] py-[1em]'>
+               {loading || receiptList.length === 0 ? <Loading /> : receiptList}
+            </div>
             }
         </section>
     </div>

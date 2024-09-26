@@ -19,14 +19,16 @@ function Orders({orderId, date, items}) {
   return (
     <div className='w-[350px]  rounded-[10px] p-[10px]   bg-[--nav] flex flex-col gap-[5px]'>
         <div className='flex justify-between flex-row-reverse'>
-            <p className='text-[0.8rem] poppins flex justify-between items-center'>{orderId}<button> <FontAwesomeIcon icon={faCopy}/></button></p>
-            <p className='text-[0.7rem] capitalize poppins'>{date}</p>
+            <p className='text-[0.8rem] poppins flex justify-between items-center'>{}<button> <FontAwesomeIcon icon={faCopy}/></button></p>
+            <p className='text-[0.7rem] capitalize poppins'>{orderId}</p>
         </div>
+        <p className='text-[0.7rem] capitalize poppins'>{date}</p>
+
         <div className='flex justify-between'>
             <p className='poppins text-[0.9rem] font-bold'>Ordered</p>
             <p className='poppins text-[0.9rem]'>{items.length} Items</p>
         </div>
-        <div className=' flex flex-col gap-[10px] h-[250px] overflow-scroll py-[1em] hide-scrollbar'>
+        <div className=' flex flex-col gap-[10px] max-h-[250px] sm:h-[250px] overflow-scroll py-[1em] hide-scrollbar'>
             {items.map((items, i) => <OrderItems key={i} {...items}/>)}
         </div>
         <div className='p-[2px] flex justify-between items-center'>

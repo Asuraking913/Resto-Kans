@@ -12,7 +12,7 @@ function OrderItems({img, name, price, quantity}) {
             <p className='ubun font-bold'>{name}</p>
             <div className='flex justify-between poppins text-[0.9rem]'>
                 <p><FontAwesomeIcon icon={faNairaSign}/>{price.toLocaleString()}</p>
-                <p>Qt: {quantity}</p>
+                <p>Quantity: {quantity}</p>
             </div>
         </div>
     </div>
