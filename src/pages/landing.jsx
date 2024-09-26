@@ -25,6 +25,7 @@ import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/navigation"
 import MenuList from '../components/landing/menuList'
+import fetchFoods from '../utils/order/fetchProducts'
 
 
 function Landing() {
@@ -34,138 +35,14 @@ function Landing() {
     const [isMobileView, setIsMobileView] = useState(window.innerWidth < 640)
 
     
-    const objList = [
-      {
-        name : "Sumptous Fried Fries",
-        price : 2500.00, 
-        available: 40, 
-        img: food1, 
-        id: self.crypto.randomUUID()
-      },
-      {
-        name : "Sausage Delight",
-        price : 1600.00, 
-        available: 20, 
-        img: food10,
-        id: self.crypto.randomUUID()
-      },
-      {
-        name : "Pancakes",
-        price : 9000.00, 
-        available: 10, 
-        img: food3, 
-        id: self.crypto.randomUUID()
-      },
-      {
-        name : "Buger",
-        price : 3000.00, 
-        available: 30, 
-        img: food4, 
-        id: self.crypto.randomUUID()
-      },
-      {
-        name : "Veggies goodness",
-        price : 1400.00, 
-        available: 5, 
-        img: food5, 
-        id: self.crypto.randomUUID()
-      },
-      {
-        name : "Delicacy",
-        price : 4000.00, 
-        available: 30, 
-        img: food6, 
-        id: self.crypto.randomUUID()
-      },
-      {
-        name : "Delicacy",
-        price : 1900.00, 
-        available: 10, 
-        img: food7, 
-        id: self.crypto.randomUUID()
-      },
-      {
-        name : "pizza",
-        price : 20000.00, 
-        available: 50, 
-        img: food8, 
-        id: self.crypto.randomUUID()
-      },
-      {
-        name : "Pizzas",
-        price : 15000.00, 
-        available: 15, 
-        img: food9, 
-        id: self.crypto.randomUUID()
-      },
-      {
-        name : "Sumptous Fried Fries",
-        price : 2500.00, 
-        available: 40, 
-        img: food1, 
-        id: self.crypto.randomUUID()
-      },
-      {
-        name : "Soul sage",
-        price : 1600.00, 
-        available: 20, 
-        img: food10,
-        id: self.crypto.randomUUID()
-      },
-      {
-        name : "Pancakes",
-        price : 9000.00, 
-        available: 10, 
-        img: food3, 
-        id: self.crypto.randomUUID()
-      },
-      {
-        name : "Buger",
-        price : 3000.00, 
-        available: 30, 
-        img: food4, 
-        id: self.crypto.randomUUID()
-      },
-      {
-        name : "Veggies goodness",
-        price : 1400.00, 
-        available: 5, 
-        img: food5, 
-        id: self.crypto.randomUUID()
-      },
-      {
-        name : "Delicacy",
-        price : 4000.00, 
-        available: 30, 
-        img: food6, 
-        id: self.crypto.randomUUID()
-      },
-      {
-        name : "Delicacy",
-        price : 1900.00, 
-        available: 10, 
-        img: food7, 
-        id: self.crypto.randomUUID()
-      },
-      {
-        name : "pizza",
-        price : 20000.00, 
-        available: 50, 
-        img: food8, 
-        id: self.crypto.randomUUID()
-      },
-      {
-        name : "Pizzas",
-        price : 15000.00, 
-        available: 15, 
-        img: food9, 
-        id: self.crypto.randomUUID()
-      },
-    ] 
+    const [objList, setObjList] = useState([
+    ]) 
 
     const menuSlide = objList.map((items, i) => <SwiperSlide key={i}> <MenuList name={items.name} img={items.img}/> </SwiperSlide>)
 
     useEffect(() => {
+      fetchFoods(setObjList)
+
       const handleResize = () => {
         setIsMobileView(window.innerWidth < 640);
       };

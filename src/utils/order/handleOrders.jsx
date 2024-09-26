@@ -22,6 +22,7 @@ const handleOrders = async (itemsList, onLoading, onError, onStatus) => {
 
 
         } catch(error) {
+            console.log(error)
             onError({status : false, msg : "Some went wrong, contact the developer"})
             onLoading(false)
     }

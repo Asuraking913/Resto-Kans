@@ -13,6 +13,7 @@ import CardForm from '../components/dashboard/cardForm'
 import handleUpload from '../utils/tabswitch'
 import { handleOrder, handlePayment, handleReceipts } from '../utils/tabswitch'
 import Upload from '../components/dashboard/upload'
+import fetchOrder from '../utils/dashboard/fetchorders'
 
 function Dashboard() {
 
@@ -40,127 +41,129 @@ function Dashboard() {
         }, 
     ])
 
+
+   
     const [orders, setOrders] = useState([
-        {
-            orderId: self.crypto.randomUUID(), 
-            date : "may 12, 2024",
-            items : [
-                {
-                    name : "Pancakes",
-                    price : 1000, 
-                    quantity : 4, 
-                    img: food2
-                }, 
-                {
-                    name : "Sausage roll",
-                    price : 800, 
-                    quantity : 10, 
-                    img: food3
-                }, 
-                {
-                    name : "Pancakes",
-                    price : 1000, 
-                    quantity : 6, 
-                    img: food
-                }
-            ]
-        }, 
-        {
-            orderId: self.crypto.randomUUID(), 
-            date : "september 12, 2024",
-            items : [
-                {
-                    name : "Pancakes",
-                    price : 15000, 
-                    quantity : 4, 
-                    img: food3
-                }, 
-                {
-                    name : "Sausage roll",
-                    price : 1900, 
-                    quantity : 10, 
-                    img: food4
-                }, 
-                {
-                    name : "Pancakes",
-                    price : 1000, 
-                    quantity : 6, 
-                    img: food2
-                }
-            ]
-        }, 
-        {
-            orderId: self.crypto.randomUUID(), 
-            date : "December 23, 2024",
-            items : [
-                {
-                    name : "Pancakes",
-                    price : 1000, 
-                    quantity : 4, 
-                    img: food
-                }, 
-                {
-                    name : "Sausage roll",
-                    price : 1000, 
-                    quantity : 10, 
-                    img: food2
-                }, 
-                {
-                    name : "Pancakes",
-                    price : 1000, 
-                    quantity : 6, 
-                    img: food
-                }
-            ]
-        },
-        {
-            orderId: self.crypto.randomUUID(), 
-            date : "December 23, 2024",
-            items : [
-                {
-                    name : "Pancakes",
-                    price : 1000, 
-                    quantity : 4, 
-                    img: food
-                }, 
-                {
-                    name : "Sausage roll",
-                    price : 1000, 
-                    quantity : 10, 
-                    img: food2
-                }, 
-                {
-                    name : "Pancakes",
-                    price : 1000, 
-                    quantity : 6, 
-                    img: food
-                }
-            ]
-        },
-        {
-            orderId: self.crypto.randomUUID(), 
-            date : "December 23, 2024",
-            items : [
-                {
-                    name : "Pancakes",
-                    price : 1000, 
-                    quantity : 4, 
-                    img: food
-                }, 
-                {
-                    name : "Sausage roll",
-                    price : 1000, 
-                    quantity : 10, 
-                    img: food2
-                }, 
-                {
-                    name : "Pancakes",
-                    price : 1000, 
-                    quantity : 6, 
-                    img: food
-                }
-            ]
-        }
+        // {
+        //     orderId: self.crypto.randomUUID(), 
+        //     date : "may 12, 2024",
+        //     items : [
+        //         {
+        //             name : "Pancakes",
+        //             price : 1000, 
+        //             quantity : 4, 
+        //             img: food2
+        //         }, 
+        //         {
+        //             name : "Sausage roll",
+        //             price : 800, 
+        //             quantity : 10, 
+        //             img: food3
+        //         }, 
+        //         {
+        //             name : "Pancakes",
+        //             price : 1000, 
+        //             quantity : 6, 
+        //             img: food
+        //         }
+        //     ]
+        // }, 
+        // {
+        //     orderId: self.crypto.randomUUID(), 
+        //     date : "september 12, 2024",
+        //     items : [
+        //         {
+        //             name : "Pancakes",
+        //             price : 15000, 
+        //             quantity : 4, 
+        //             img: food3
+        //         }, 
+        //         {
+        //             name : "Sausage roll",
+        //             price : 1900, 
+        //             quantity : 10, 
+        //             img: food4
+        //         }, 
+        //         {
+        //             name : "Pancakes",
+        //             price : 1000, 
+        //             quantity : 6, 
+        //             img: food2
+        //         }
+        //     ]
+        // }, 
+        // {
+        //     orderId: self.crypto.randomUUID(), 
+        //     date : "December 23, 2024",
+        //     items : [
+        //         {
+        //             name : "Pancakes",
+        //             price : 1000, 
+        //             quantity : 4, 
+        //             img: food
+        //         }, 
+        //         {
+        //             name : "Sausage roll",
+        //             price : 1000, 
+        //             quantity : 10, 
+        //             img: food2
+        //         }, 
+        //         {
+        //             name : "Pancakes",
+        //             price : 1000, 
+        //             quantity : 6, 
+        //             img: food
+        //         }
+        //     ]
+        // },
+        // {
+        //     orderId: self.crypto.randomUUID(), 
+        //     date : "December 23, 2024",
+        //     items : [
+        //         {
+        //             name : "Pancakes",
+        //             price : 1000, 
+        //             quantity : 4, 
+        //             img: food
+        //         }, 
+        //         {
+        //             name : "Sausage roll",
+        //             price : 1000, 
+        //             quantity : 10, 
+        //             img: food2
+        //         }, 
+        //         {
+        //             name : "Pancakes",
+        //             price : 1000, 
+        //             quantity : 6, 
+        //             img: food
+        //         }
+        //     ]
+        // },
+        // {
+        //     orderId: self.crypto.randomUUID(), 
+        //     date : "December 23, 2024",
+        //     items : [
+        //         {
+        //             name : "Pancakes",
+        //             price : 1000, 
+        //             quantity : 4, 
+        //             img: food
+        //         }, 
+        //         {
+        //             name : "Sausage roll",
+        //             price : 1000, 
+        //             quantity : 10, 
+        //             img: food2
+        //         }, 
+        //         {
+        //             name : "Pancakes",
+        //             price : 1000, 
+        //             quantity : 6, 
+        //             img: food
+        //         }
+        //     ]
+        // }
     ])
 
     const tabList = tabObj.map((item, i) => <TabBlock key={i} icon={item.icon} header={item.header} number={item.amount}/>)
@@ -168,6 +171,13 @@ function Dashboard() {
     const orderList = orders.map((items, i) => <Orders key={i} {...items}/>)
 
     
+
+    useEffect(() => {
+        fetchOrder(setOrders)
+    }, [])
+
+    console.log(orders)
+
 
 
   return (

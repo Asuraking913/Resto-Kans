@@ -27,6 +27,7 @@ function OrderPage() {
 const [duplicate, setDuplicate] = useState([])
 const [deleted, setDeleted] = useState([])
 const [order, setOrder] = useState(false)
+const [error, setError] = useState("")
 
 const [change, setChange] = useState(0)
 
@@ -177,68 +178,70 @@ const [nav, setNav] = useState(false)
 const [cartBar, setCartBar] = useState(false)
 
   const foodList = foodObjects.map((item, i) => (
-      <OrderCart key={i} name={item.name} change={change} deleted={deleted} onDelete={setDeleted} quantity={item.available} id={item.id} onDuplicate={setDuplicate} img={item.img} price={item.price} onSelect={setSelectedItems} selected={selectedItems}/>
+      <OrderCart onError={setError} key={i} name={item.name} change={change} deleted={deleted} onDelete={setDeleted} quantity={item.available} id={item.id} onDuplicate={setDuplicate} img={item.img} price={item.price} onSelect={setSelectedItems} selected={selectedItems}/>
   ))
 
   return (
-    <div className=' '>
+    <>
+        {order && <OrderPrev onCartBar={setCartBar} onSelecteItems={setSelectedItems} onOrder={setOrder} items={selectedItems.filter(item => !(deleted.includes(item.id)))}/>}
 
-      {/* Preview */}
-      {order && <OrderPrev onOrder={setOrder} items={selectedItems.filter(item => !(deleted.includes(item.id)))}/>}
-
-        <Nav onNav={setNav} nav={nav}/>
-        <div onClick={() => selectedItems.reverse().filter(item => !(deleted.includes(item.id))).length > 0  && setCartBar(!cartBar)} className={`fixed ${!cartBar ? 'top-[80%]' : 'top-[12%]' } bg-[--bg] p-2 sm:hidden shadow-md shadow-black rounded-[50%] right-[1em] z-[4]`}>
-          <div className='relative'>
-            <p className='absolute top-[-15px] right-[-5px] bg-red-500 px-[.5em] rounded-[50%] text-white'>{selectedItems.reverse().filter(item => item.quantity != 0).length}</p>
-            <img src={!cartBar ? cart : times} className='w-[30px] h-[30px]' alt="" />
+      <div className={`${ order  && "blur"}`}>
+        {error && <p className='fixed bg-[--nav] shadow-sm shadow-[--black] top-[2em] p-[1.5em]'>{error}</p>}
+        {/* Preview */}
+          <Nav onNav={setNav} nav={nav}/>
+          <div onClick={() => selectedItems.reverse().filter(item => !(deleted.includes(item.id))).length > 0  && setCartBar(!cartBar)} className={`fixed ${!cartBar ? 'top-[80%]' : 'top-[12%]' } bg-[--bg] p-2 sm:hidden shadow-md shadow-black rounded-[50%] right-[1em] z-[4]`}>
+            <div className='relative'>
+              <p className='absolute top-[-15px] right-[-5px] bg-red-500 px-[.5em] rounded-[50%] text-white'>{selectedItems.reverse().filter(item => item.quantity != 0).length}</p>
+              <img src={!cartBar ? cart : times} className='w-[30px] h-[30px]' alt="" />
+            </div>
           </div>
-        </div>
-        <section className='flex '>
-          
-          <div className='hidden sm:block z-[20]'>
-            <SideBar />
-          </div>
-          {nav && 
-              <SideBar nav={nav}/>
-          }
-          <div className='text-[--bdcolor] sm:w-[80%]  h-[200vh] mt-[4em] sm:mt-[6em] min-[300px]: ml-[.2em] sm:ml-[6em]'>
-            <h1 className='sm:text-2xl text-xl sm:text-left text-center font-bold poppins py-[.5em]'>Explore out best menu for today</h1>
-            <div className='flex flex-wrap gap-[.4em] sm:justify-normal justify-center sm:gap-2' >
-              {foodList}
-            </div> 
-          </div>
-          <AnimatePresence>
-          {cartBar && 
-            <motion.div
-            key={cartBar}
-            initial={{
-              x: "50em",
-              backgroundColor: "var(--black)"
-            }}
-            transition={{
-              duration: .9
-            }}
-            whileInView={{
-              backgroundColor: "rgba(0,0,0,0.53)"
-            }}
-            animate={{
-              x:0,
-              backgroundColor: "var(--black)"
-            }}
-            exit={{
-              x: "50em",
-              backgroundColor: "var(--black)"
-            }}
-             className='w-full h-full fixed right-0 z-[2] bg-[#00000088]'>
-              <CartBar  selectedItems={selectedItems.reverse().filter(item => !(deleted.includes(item.id)))} onDelete={setDeleted} onChange={setChange} change={change}/>
-            </motion.div>
-          }
-          </AnimatePresence>
-          <div className='hidden sm:block'>
-            <CartBar onOrder={setOrder}  selectedItems={selectedItems.reverse().filter(item => !(deleted.includes(item.id)))} onDelete={setDeleted} onChange={setChange} change={change}/>
-          </div>
-        </section>
-    </div>
+          <section className='flex '>
+      
+            <div className='hidden sm:block z-[20]'>
+              <SideBar />
+            </div>
+            {nav &&
+                <SideBar nav={nav}/>
+            }
+            <div className='text-[--bdcolor] sm:w-[80%]  h-[200vh] mt-[4em] sm:mt-[6em] min-[300px]: ml-[.2em] sm:ml-[6em]'>
+              <h1 className='sm:text-2xl text-xl sm:text-left text-center font-bold poppins py-[.5em]'>Explore out best menu for today</h1>
+              <div className='flex flex-wrap gap-[.4em] sm:justify-normal justify-center sm:gap-2' >
+                {foodList}
+              </div>
+            </div>
+            <AnimatePresence>
+            {cartBar &&
+              <motion.div
+              key={cartBar}
+              initial={{
+                x: "50em",
+                backgroundColor: "var(--black)"
+              }}
+              transition={{
+                duration: .9
+              }}
+              whileInView={{
+                backgroundColor: "rgba(0,0,0,0.53)"
+              }}
+              animate={{
+                x:0,
+                backgroundColor: "var(--black)"
+              }}
+              exit={{
+                x: "50em",
+                backgroundColor: "var(--black)"
+              }}
+               className='w-full h-full fixed right-0 z-[2] bg-[#00000088]'>
+                <CartBar onOrder={setOrder}  selectedItems={selectedItems.reverse().filter(item => !(deleted.includes(item.id)))} onDelete={setDeleted} onChange={setChange} change={change}/>
+              </motion.div>
+            }
+            </AnimatePresence>
+            <div className='hidden sm:block'>
+              <CartBar onOrder={setOrder}  selectedItems={selectedItems.reverse().filter(item => !(deleted.includes(item.id)))} onDelete={setDeleted} onChange={setChange} change={change}/>
+            </div>
+          </section>
+      </div>
+    </>
   )
 }
 

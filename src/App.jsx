@@ -15,6 +15,7 @@ function App() {
             <Route path={"/menu"} element = {<OrderPage />}/> 
             <Route path={"/dashboard"} element = {<Dashboard />}/> 
             <Route path={"/authenticate"} element={<Authenticate />}/>
+            {/* <Route path={"/checkout"} element={<Check />}/> */}
           </Routes>
       </Router>
     </div>

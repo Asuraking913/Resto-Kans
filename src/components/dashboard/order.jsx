@@ -18,7 +18,7 @@ function Orders({orderId, date, items}) {
 
   return (
     <div className='w-[350px]  rounded-[10px] p-[10px]   bg-[--nav] flex flex-col gap-[5px]'>
-        <div>
+        <div className='flex justify-between flex-row-reverse'>
             <p className='text-[0.8rem] poppins flex justify-between items-center'>{orderId}<button> <FontAwesomeIcon icon={faCopy}/></button></p>
             <p className='text-[0.7rem] capitalize poppins'>{date}</p>
         </div>

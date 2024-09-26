@@ -6,7 +6,7 @@ import handleOrders from '../../utils/order/handleOrders'
 import { useInterval } from 'react-use'
 import { motion, AnimatePresence } from 'framer-motion'
 
-function OrderPrev({items, onOrder}) {
+function OrderPrev({items, onOrder, onSelecteItems, onCartBar}) {
 
     const [error, setError] = useState("")
 
@@ -28,6 +28,13 @@ function OrderPrev({items, onOrder}) {
     useInterval(() => {
         setError(prev => prev = "")
     }, 5000, [error])
+
+    useEffect(() => {
+        if(status) {
+            onSelecteItems([])
+            onCartBar(prev => !prev)
+        }
+    }, [status])
 
 
   return (
@@ -54,9 +61,8 @@ function OrderPrev({items, onOrder}) {
             </motion.p>}
         </AnimatePresence>
 
-        <div className='w-[30%] max-h-[80vh] bg-[--nav] mt-[2em] rounded-[10px] flex flex-col justify-between pb-[10px]'>
+        <div className='sm:w-[30%] w-[90%] sm:px-0 max-h-[80vh] bg-[--nav] mt-[2em] rounded-[5px] flex flex-col justify-between pb-[10px]'>
             <div className='w-full  p-[1em] items-center border-b-[1.5px] border-[--black] flex justify-between'>
-                {/* <p className='poppins font-bold text-[1.4rem]'>Resto Kans</p> */}
                 <FontAwesomeIcon className='text-xl text-[--black]' icon={faShoppingCart}/>
                 <button onClick={() => onOrder(false)}>
                     <FontAwesomeIcon className='text-[1.4rem] text-[--black]' icon={faTimes}/>
@@ -78,9 +84,6 @@ function OrderPrev({items, onOrder}) {
                     listItems
                 }
             </div>
-            {/* <div className='w-full px-[1em]'>
-                <p className='text-right poppins'>Total: {total}</p>
-            </div> */}
             {
                 status ? "" : <div className='px-[1em] flex justify-center'>
                 <button onClick={() => handleOrders(items, setLoading, setError, setStatus)} className='p-[10px] sm:hover:w-[95%] duration-[0.5s] bg-[--black] w-full text-[--nav] poppins sm:text-[1.2rem] rounded-[5px]'>{!loading && "Pay"} <span className='text-[1rem]'>{loading ? <FontAwesomeIcon icon={faSpinner} className='text-xl text-[--nav] animate-spin'/>  : <FontAwesomeIcon className='pl-[1em]' icon={faNairaSign}/>} {!loading && total}</span></button>
