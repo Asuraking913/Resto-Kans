@@ -5,8 +5,9 @@ import PrevComp from './previewComponents'
 import handleOrders from '../../utils/order/handleOrders'
 import { useInterval } from 'react-use'
 import { motion, AnimatePresence } from 'framer-motion'
+import fetchFoods from '../../utils/order/fetchProducts'
 
-function OrderPrev({items, onOrder, onSelecteItems, onCartBar}) {
+function OrderPrev({items, onOrder, onSelecteItems, onCartBar, onFood}) {
 
     const [error, setError] = useState("")
 
@@ -32,7 +33,11 @@ function OrderPrev({items, onOrder, onSelecteItems, onCartBar}) {
     useEffect(() => {
         if(status) {
             onSelecteItems([])
+            if(window.innerWidth < 640) {
             onCartBar(prev => !prev)
+        }
+            onFood([])
+            fetchFoods(onFood)
         }
     }, [status])
 

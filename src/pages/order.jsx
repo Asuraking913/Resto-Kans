@@ -183,7 +183,7 @@ const [cartBar, setCartBar] = useState(false)
 
   return (
     <>
-        {order && <OrderPrev onCartBar={setCartBar} onSelecteItems={setSelectedItems} onOrder={setOrder} items={selectedItems.filter(item => !(deleted.includes(item.id)))}/>}
+        {order && <OrderPrev onFood={setFoodObjects} onCartBar={setCartBar} onSelecteItems={setSelectedItems} onOrder={setOrder} items={selectedItems.filter(item => !(deleted.includes(item.id)))}/>}
 
       <div className={`${ order  && "blur"}`}>
         {error && <p className='fixed bg-[--nav] shadow-sm shadow-[--black] top-[2em] p-[1.5em]'>{error}</p>}

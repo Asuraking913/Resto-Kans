@@ -7,8 +7,6 @@ const handleOrders = async (itemsList, onLoading, onError, onStatus) => {
             product : item.id, 
             quantity : item.quantity
         }))
-
-        console.log(productIds) 
         
     try{
             const response = await Axios.post("api/order/", {"order" : productIds})

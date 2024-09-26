@@ -9,6 +9,7 @@ const fetchFoods = async (onProduct) => {
             id : items.id,
             img : items.image
         }))
+        console.log(new_data)
         onProduct(prev => [...new_data.reverse(), ...prev])
 
     })
