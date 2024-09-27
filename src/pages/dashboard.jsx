@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Nav from '../components/primary-comp/nav'
 import SideBar from '../components/primary-comp/sidebar'
 import { useState } from 'react'
@@ -17,26 +17,29 @@ import AuthContext from '../utils/provider'
 
 function Dashboard() {
     const {isAuthenticated, adminUser} = useContext(AuthContext)
-    const [clicked, setClicked] = useState(adminUser ? "orders" : "payments")
+    const [clicked, setClicked] = useState(adminUser ? "orders" : "receipts")
     const [loading, setLoading] = useState(false)
+    const value = adminUser ? 9 : 2
 
     const [nav, setNav] = useState(false)
     const [tabObj, setTabObj] = useState([
-        {
-            header : "total Orders",
-            amount : 100,
-            icon : faCartShopping
-        }, 
-        {
-            header : "Purchases",
-            amount : 95,
-            icon : faDollar
-        }, 
         { 
             header : "Balance",
             amount : 62456,
             icon : faNairaSign
         }, 
+        
+        {
+            header : "Purchases",
+            amount : 95,
+            icon : faDollar
+        }, 
+        {
+            header : "total Orders",
+            amount : 100,
+            icon : faCartShopping
+        }, 
+        
     ])
 
 
@@ -46,7 +49,7 @@ function Dashboard() {
     const [receipts, setReceipts] = useState([
     ])
 
-    const tabList = tabObj.map((item, i) => <TabBlock orders={orders.length} key={i} icon={item.icon} header={item.header} number={item.amount}/>)
+    const tabList = tabObj.filter(items => tabObj.indexOf(items) != value).map((item, i) => <TabBlock orders={orders.length} key={i} receipts={receipts.length} icon={item.icon} header={item.header} number={item.amount}/>)
     // tab items
     const orderList = orders.map((items, i) => <Orders key={i} {...items}/>)
     const receiptList = receipts.map((items, i) => <Receipts key={i} {...items}/>)
@@ -55,17 +58,10 @@ function Dashboard() {
 
     useEffect(() => {
         setOrders([])
-        if(clicked == "orders") {
-            fetchOrder(setOrders, setLoading)
-        }
-        if(clicked == "receipts") {
-            fetchreceipts(setLoading, setReceipts)
-        }
-    }, [clicked])
+        fetchOrder(setOrders, setLoading)
+        fetchreceipts(setLoading, setReceipts)
+    }, [])
 
-    useEffect(() => {
-        console.log(receipts)
-    }, [receipts])
 
   return (
     <div>
@@ -76,15 +72,15 @@ function Dashboard() {
         </div>
 
         <section className=' sm:pl-[--pdx] py-[.5em] pt-[4em] flex sm:flex-row flex-col gap-[.5em] items-center'>
-            <div className='m-[10px] sm:w-[50%]'>
+            <div className={`m-[10px] ${adminUser ? "sm:w-[50%]" :"sm:w-[63%]"}`}>
                 <div className='  '>
-                    <h1 className='text-[2rem] poppins font-bold'>Welcome to Your DashBoard Israel!!</h1>
+                    <h1 className='text-[2rem] poppins font-bold'>Welcome to Your DashBoard</h1>
                     <p className='poppins text-[0.9rem]'>View your recent transactions and activity</p>
                 </div>
             </div>
 
             {/* Tab Block */}
-            <div className='flex gap-[0em] ml-[1em] sm:pl-0 sm:w-[50%] sm:flex-nowrap flex-wrap sm:px-0 px-[1em] bg-[--nav] justify-between mt-[10px] rounded-[5px] mr-[10px]'>
+            <div className={`flex gap-[0em] ml-[1em] sm:pl-0 ${ adminUser ?  "sm:w-[50%]" : "w-auto"} sm:flex-nowrap flex-wrap sm:px-0 px-[1em] bg-[--nav] justify-between mt-[10px] rounded-[5px] mr-[10px]`}>
                 {tabList}
             </div>
             
@@ -93,8 +89,8 @@ function Dashboard() {
             <ul className='flex mt-[1em] sm:w-auto w-[90%] sm:justify-normal justify-between ubun flex-wrap'>
                 {adminUser && <li ><button onClick={() => handleOrder(setClicked)}  className={`p-[.5em] ${clicked === 'orders' ? " sm:hover:bg-[--black] bg-[--nav] text-[--black] sm:hover:text-[--nav]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Recent Orders</button></li>}
                 {adminUser && <li ><button onClick={() => handleUpload(setClicked)}  className={`p-[.5em] ${clicked === 'upload' ? " sm:hover:bg-[--black] bg-[--nav] text-[--black] sm:hover:text-[--nav]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Upload</button></li>}
-                <li ><button onClick={() => handlePayment(setClicked)}  className={`p-[.5em] ${clicked === 'payments' ? " sm:hover:bg-[--nav] bg-[--nav] sm:hover:text-[--black] text-[--black]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Payment methods</button></li>
                 <li ><button onClick={() => handleReceipts(setClicked)}  className={`p-[.5em] ${clicked === 'receipts' ? " sm:hover:bg-[--nav] bg-[--nav] sm:hover:text-[--black] text-[--black]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Receipts</button></li>
+                <li ><button onClick={() => handlePayment(setClicked)}  className={`p-[.5em] ${clicked === 'payments' ? " sm:hover:bg-[--nav] bg-[--nav] sm:hover:text-[--black] text-[--black]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Payment methods</button></li>
             </ul>
         </nav>
         <section className='sm:px-[--pdx] px-[1em]'>
@@ -106,7 +102,7 @@ function Dashboard() {
             }
 
             {clicked === "payments" &&
-                <div className='w-[50%] py-[1em]'>
+                <div className='w-[100%] py-[1em]'>
                     <CardForm />
                 </div>
             }
@@ -115,8 +111,11 @@ function Dashboard() {
             }
             {
                clicked === "receipts" && 
-            <div className='flex flex-wrap gap-[1em] py-[1em]'>
-               {loading || receiptList.length === 0 ? <Loading /> : receiptList}
+            <div className='flex flex-wrap py-[1em]'>
+                <h2 className='poppins text-[1.2rem] font-bold m-[10px]'>Receipts</h2>
+                <div className='flex flex-wrap gap-[1em]'>
+                    {loading || receiptList.length === 0 ? <Loading /> : receiptList}
+                </div>
             </div>
             }
         </section>

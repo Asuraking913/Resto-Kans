@@ -14,6 +14,8 @@ const fetchreceipts = async (onLoading, onReceipts) => {
         }
         onLoading(false)
     })
+    onLoading(false)
+
 }
 
 export default fetchreceipts

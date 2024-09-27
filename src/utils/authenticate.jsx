@@ -1,6 +1,4 @@
-import { useContext } from 'react'
 import Axios from '../utils/Axios'
-import AuthContext from './provider'
 
 const handleSumbit = async (e, onError, onLogin, data, onLoading) => {
 
