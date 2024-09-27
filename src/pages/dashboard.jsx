@@ -1,12 +1,8 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import Nav from '../components/primary-comp/nav'
 import SideBar from '../components/primary-comp/sidebar'
 import { useState } from 'react'
 import { faCartShopping, faDollar, faNairaSign } from '@fortawesome/free-solid-svg-icons'
-import food from "../assets/food10.jpeg"
-import food2 from "../assets/food8.jpeg"
-import food3 from "../assets/food9.jpg" 
-import food4 from "../assets/food.jpeg"
 import TabBlock from '../components/dashboard/tabBlock'
 import Orders from '../components/dashboard/order'
 import CardForm from '../components/dashboard/cardForm'
@@ -17,13 +13,11 @@ import fetchOrder from '../utils/dashboard/fetchorders'
 import Loading from '../components/primary-comp/loading'
 import fetchreceipts from '../utils/dashboard/fetchReceipts'
 import Receipts from '../components/dashboard/receipts'
+import AuthContext from '../utils/provider'
 
 function Dashboard() {
-
-    // const recent = useRef(null)
-    // const payment = useRef(null)
-    // const receipts = useRef(null)
-    const [clicked, setClicked] = useState("orders")
+    const {isAuthenticated, adminUser} = useContext(AuthContext)
+    const [clicked, setClicked] = useState(adminUser ? "orders" : "payments")
     const [loading, setLoading] = useState(false)
 
     const [nav, setNav] = useState(false)
@@ -97,8 +91,8 @@ function Dashboard() {
         </section>
         <nav className='sm:px-[--pdx] px-[1em]'>
             <ul className='flex mt-[1em] sm:w-auto w-[90%] sm:justify-normal justify-between ubun flex-wrap'>
-                <li ><button onClick={() => handleOrder(setClicked)}  className={`p-[.5em] ${clicked === 'orders' ? " sm:hover:bg-[--black] bg-[--nav] text-[--black] sm:hover:text-[--nav]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Recent Orders</button></li>
-                <li ><button onClick={() => handleUpload(setClicked)}  className={`p-[.5em] ${clicked === 'upload' ? " sm:hover:bg-[--black] bg-[--nav] text-[--black] sm:hover:text-[--nav]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Upload</button></li>
+                {adminUser && <li ><button onClick={() => handleOrder(setClicked)}  className={`p-[.5em] ${clicked === 'orders' ? " sm:hover:bg-[--black] bg-[--nav] text-[--black] sm:hover:text-[--nav]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Recent Orders</button></li>}
+                {adminUser && <li ><button onClick={() => handleUpload(setClicked)}  className={`p-[.5em] ${clicked === 'upload' ? " sm:hover:bg-[--black] bg-[--nav] text-[--black] sm:hover:text-[--nav]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Upload</button></li>}
                 <li ><button onClick={() => handlePayment(setClicked)}  className={`p-[.5em] ${clicked === 'payments' ? " sm:hover:bg-[--nav] bg-[--nav] sm:hover:text-[--black] text-[--black]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Payment methods</button></li>
                 <li ><button onClick={() => handleReceipts(setClicked)}  className={`p-[.5em] ${clicked === 'receipts' ? " sm:hover:bg-[--nav] bg-[--nav] sm:hover:text-[--black] text-[--black]"  : " sm:hover:bg-[--nav] bg-[--black] text-[--nav] "} duration-[0.2s] px-[1em]  sm:hover:text-[--black] sm:hover:shadow-md shadow-[--black]`}>Receipts</button></li>
             </ul>

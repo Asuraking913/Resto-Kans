@@ -6,8 +6,20 @@ import { useNavigate } from 'react-router-dom'
 import { useInterval } from 'react-use'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { useContext } from 'react'
+import AuthContext from '../../utils/provider'
 
 function LoginForm({onLogin}) {
+
+  const {
+    userName, 
+    setUserName, 
+    setAdminUser, 
+    setIsAuthenticated, 
+    isAuthenticated,  
+    adminUser
+  } = useContext(AuthContext)
+
   const navigate = useNavigate()
   const [error, setError] = useState("")
   const [email, setEmail] = useState("")
@@ -16,7 +28,6 @@ function LoginForm({onLogin}) {
   const [result, setResult] = useState(false)
 
   useEffect(() => {
-    console.log(result)
     result && navigate("/menu")
   }, [result])
 
@@ -34,6 +45,8 @@ function LoginForm({onLogin}) {
           email : email, 
           password : password , 
         }, 
+
+        onAdmin : setAdminUser,
 
         onLoading : setLoading
       })} className='w-full flex flex-col gap-[1em]'>
