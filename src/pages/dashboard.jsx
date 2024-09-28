@@ -80,7 +80,7 @@ function Dashboard() {
 
     useEffect(() => {
         setOrders([])
-        if(adminUser) {
+        if(adminUser || sessionStorage.getItem('admin')) {
             fetchOrder(setOrders, setLoading, setError, data)
 
         }

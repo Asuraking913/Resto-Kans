@@ -41,6 +41,8 @@ const handleSumbit = async (e, onError, onLogin, data, onLoading) => {
         // localStorage.setItem('access', response.data.access)
         data.onAuth(true)
         data.onAdmin(response.data.is_admin)
+        sessionStorage.setItem('admin', response.data.is_admin)
+        sessionStorage.setItem('auth', true)
       }
     }
     catch(error) {
