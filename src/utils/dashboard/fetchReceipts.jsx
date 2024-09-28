@@ -1,9 +1,9 @@
 import Axios from "../Axios"
 
-const fetchreceipts = async (onLoading, onReceipts) => {
+const fetchreceipts = async (onLoading, onReceipts, onError) => {
     onLoading(true)
-    const response = await Axios.get("/api/order/").then(response => {
-        // console.log(response.data)
+    try {
+        const response = await Axios.get("/api/order/")
         if(response.status == 200) {
             const object = response.data.data.map(item => ({
                 orderId : item.orderId, 
@@ -13,8 +13,12 @@ const fetchreceipts = async (onLoading, onReceipts) => {
            onReceipts([...object])
         }
         onLoading(false)
-    })
-    onLoading(false)
+
+    }
+    catch(error) {
+        onLoading(false)
+        onError(401)
+    }
 
 }
 

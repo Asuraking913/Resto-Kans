@@ -1,23 +1,34 @@
 import Axios from "../Axios"
 
-const fetchOrder = async (onOrder, onLoading) => {
+const fetchOrder = async (onOrder, onLoading, onError, data) => {
     onLoading(true)
     try{
-        const response = await Axios.get("api/order/")
-        if(response.status == 200) {
+        const response = await Axios.get(`api/order/?page=${data.page}`)
+        // console.log(page)
+        // console.log(response.data)
+        if(response.status === 200) {
             const object = response.data.data.map(item => ({
                 orderId : item.orderId, 
                 date : item.date, 
                 items : item.products
             }))
-            onOrder(prev => [...object])
+
+            if(object.length  <= 0) {
+                onLoading(false)
+                data.onComplete(true)
+                return
+            }
+
+            onOrder(prev => [...prev, ...object])
             onLoading(false)
+            console.log(object)
         }
     }
 
     catch(error) {
-        onLoading(false)
         console.log(error)
+        onLoading(false)
+        onError(401)
     }
 }
 
