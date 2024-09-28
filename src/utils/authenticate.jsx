@@ -1,3 +1,4 @@
+import { jwtDecode } from 'jwt-decode'
 import Axios from '../utils/Axios'
 
 const handleSumbit = async (e, onError, onLogin, data, onLoading) => {
@@ -26,6 +27,7 @@ const handleSumbit = async (e, onError, onLogin, data, onLoading) => {
   }
 
   export const handleLogin = async (data) => {
+    
 
     data.e.preventDefault() 
     data.onLoading(true)
@@ -33,9 +35,11 @@ const handleSumbit = async (e, onError, onLogin, data, onLoading) => {
     try{
       const response = await Axios.post("/api/auth/login/user/", data.data)
       console.log(response.data)
+      // return
       if (response.status == 200) {
         data.onResult(true)
-        localStorage.setItem('access', response.data.access)
+        // localStorage.setItem('access', response.data.access)
+        data.onAuth(true)
         data.onAdmin(response.data.is_admin)
       }
     }

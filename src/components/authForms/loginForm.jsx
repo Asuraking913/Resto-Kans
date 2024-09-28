@@ -47,6 +47,7 @@ function LoginForm({onLogin}) {
         }, 
 
         onAdmin : setAdminUser,
+        onAuth: setIsAuthenticated,
 
         onLoading : setLoading
       })} className='w-full flex flex-col gap-[1em]'>

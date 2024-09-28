@@ -80,10 +80,10 @@ function Dashboard() {
 
     useEffect(() => {
         setOrders([])
-        // if(adminUser) {
+        if(adminUser) {
             fetchOrder(setOrders, setLoading, setError, data)
 
-        // }
+        }
         fetchreceipts(setLoading, setReceipts, setError, 1)
     }, [])
 
