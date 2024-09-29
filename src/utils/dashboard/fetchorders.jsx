@@ -21,12 +21,10 @@ const fetchOrder = async (onOrder, onLoading, onError, data) => {
 
             onOrder(prev => [...prev, ...object])
             onLoading(false)
-            console.log(object)
         }
     }
 
     catch(error) {
-        console.log(error)
         onLoading(false)
         onError(401)
     }

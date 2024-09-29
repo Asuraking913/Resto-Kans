@@ -71,9 +71,7 @@ function Dashboard() {
 
     useEffect(() => {
         if(inView && orderList.length > 0 && clicked === "orders" && pageComplete == false) {
-            console.log(inView)
             fetchOrder(setOrders, setLoading, setError, data)
-            console.log(orders, 'event')
         }
     }, [inView])
     
@@ -88,6 +86,7 @@ function Dashboard() {
     }, [])
 
     useEffect(() => {
+        window.scrollTo({top : 0, behavior : 'smooth'})
         if(error == 401) {
             navigate("/authenticate")
         }
@@ -158,12 +157,12 @@ function Dashboard() {
             }
             { pageComplete ? 
                 <div className='p-[2em] text-center'>
-                    <h2 className='poppins font-bold text-[2rem] capitalize text-[--black]'>You are caught up!!!</h2>
+                    {clicked == "orders" && <h2 className='poppins font-bold text-[2rem] capitalize text-[--black]'>You are caught up!!!</h2>}
                 </div>
             :
 
-            <motion.div  className='w-full py-[1em]  text-center'>
-                        <FontAwesomeIcon ref={moreOrders} icon={faSpinner} className='font-bold text-[3rem] animate-spin text-[--black]'/>
+            <motion.div ref={moreOrders}  className='w-full py-[1em]  text-center'>
+                   { clicked === "orders" &&     <FontAwesomeIcon  icon={faSpinner} className='font-bold text-[3rem] animate-spin text-[--black]'/>}
             </motion.div>
             }
         </section>
