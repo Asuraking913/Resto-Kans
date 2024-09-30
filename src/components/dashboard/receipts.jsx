@@ -16,10 +16,11 @@ function Receipts({date, orderId, items}) {
         return newValue
     }, 0)
 
-    const [userName, setUserName] = useState("Israel")
+    const [userName, setUserName] = useState("")
 
   return (
     <div className='w-[380px]  rounded-[5px] p-[10px]   bg-[--nav] flex flex-col gap-[5px]'>
+        <h1 className='text-center poppins font-bold p-[5px]'>Your Receipt</h1>
         <div className='flex justify-between items-center'>
             <p className='font-bold text-[1rem] poppins flex justify-between items-center'>Order id: </p>
             <p className='text-[0.85rem] capitalize poppins'>{orderId}</p>

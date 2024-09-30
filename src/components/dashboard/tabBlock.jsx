@@ -13,7 +13,7 @@ function TabBlock({icon, header, number, orders, receipts}) {
               {
                 header === "Balance" 
               ?
-                number.toLocaleString()
+                number?.toLocaleString()
               :
 
                 header  == "total Orders" ? orders.toLocaleString()

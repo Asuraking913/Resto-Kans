@@ -17,11 +17,14 @@ import AuthContext from '../utils/provider'
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useInView, motion } from 'framer-motion'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import Axios from '../utils/Axios'
 
 function Dashboard() {
 
+    const admin = sessionStorage.getItem('admin')
     const {isAuthenticated, adminUser} = useContext(AuthContext)
-    const [clicked, setClicked] = useState(adminUser ? "orders" : "receipts")
+    const [clicked, setClicked] = useState( admin ? "orders" : 'receipts') 
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
     const navigate = useNavigate()
@@ -48,49 +51,59 @@ function Dashboard() {
         
     ])
 
+    const { data : data1, error: error1, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
+        queryKey : ['orders'], 
+        queryFn : async ({ pageParam = 1   }) => {
+            try{
+                const response = await Axios.get(`api/order/?page=${pageParam}`)
+                if(response.status == 200) {
+                    const object = response.data.data.map(item => ({
+                        orderId : item.orderId, 
+                        date : item.date, 
+                        items : item.products
+                    }))
+                    return object
+                }
 
+                setError("Error Fetching data")
+                
+            }
+            catch(error) {
+                console.log(error)
+            }
+        }, 
+        
+        getNextPageParam: (lastpage, pages) => {
+            // console.log(pages.flatMap(pages => pages ).length / 10)
+            // console.log(lastpage)
+            // console.log(pages.flatMap(pages => pages ).length)
+            // console.log(Math.round(pages.flatMap(pages => pages ).length / 10 + 1))
+            return Math.round(pages.flatMap(pages => pages ).length / 10 + 1)
+        }
+    })
    
     const [orders, setOrders] = useState([
     ])
     const [receipts, setReceipts] = useState([
     ])
 
-    const tabList = tabObj.filter(items => tabObj.indexOf(items) != value).map((item, i) => <TabBlock orders={orders.length} key={i} receipts={receipts.length} icon={item.icon} header={item.header} number={item.amount}/>)
-    // tab items
-    const orderList = orders.map((items, i) => <Orders key={i} {...items}/>)
-    const receiptList = receipts.map((items, i) => <Receipts key={i} {...items}/>)
-
-    const moreOrders = useRef(null)
-    const inView = useInView(moreOrders)
-    const [pageComplete, setPageComplete] = useState(false)
-
-    let data = {
-        page : Math.round(orderList.length / 10 + 1), 
-        onComplete : setPageComplete
-    }
-
-    useEffect(() => {
-        if(inView && orderList.length > 0 && clicked === "orders" && pageComplete == false) {
-            fetchOrder(setOrders, setLoading, setError, data)
-        }
-    }, [inView])
     
+    const receiptList = receipts.map((items, i) => <Receipts key={i} {...items}/>)
+    const posts = data1?.pages.flatMap((page) => page)
+    const previousPost = useRef(null)
+    const lastPost = useRef(null)
+    const inView = useInView(lastPost)
 
+    
     useEffect(() => {
-        setOrders([])
-        if(adminUser || sessionStorage.getItem('admin')) {
-            fetchOrder(setOrders, setLoading, setError, data)
-
+        
+        if(inView) {
+            fetchNextPage()
         }
-        fetchreceipts(setLoading, setReceipts, setError, 1)
-    }, [])
 
-    useEffect(() => {
-        window.scrollTo({top : 0, behavior : 'smooth'})
-        if(error == 401) {
-            navigate("/authenticate")
-        }
-    }, [error])
+    }, [inView])
+
+    const tabList = tabObj.filter(items => tabObj.indexOf(items) != value).map((item, i) => <TabBlock orders={posts ? posts?.length : ""} key={i} receipts={receipts.length} icon={item.icon} header={item.header} number={item?.amount}/>)
 
 
   return (
@@ -128,12 +141,12 @@ function Dashboard() {
                 clicked === "orders" && 
                 <div className='flex flex-wrap gap-[1em] py-[1em]'>
                     {
-                        loading || orderList.length === 0 ?
-                         <Loading /> 
-                         :
-                         orderList
-
-                     }
+                        posts?.map((items, i) =>(
+                            <span key={i} ref={i === posts.length - 1 ? lastPost  : previousPost}>
+                                <Orders items={items.items} orderId={items.orderId} date={items.date}/>
+                            </span>)
+                        )
+                    }
                 </div>
             }
 
@@ -150,21 +163,27 @@ function Dashboard() {
             <div className='flex flex-wrap sm:flex-col py-[1em]'>
                 <h2 className='poppins text-[1.2rem] font-bold m-[10px]'>Receipts</h2>
                 <div className='flex flex-wrap gap-[1em]'>
-                    {loading && receiptList.length === 0 ? <Loading /> : receiptList}
+                    {
+                        loading &&
+
+                        receiptList.length === 0 ? 
+
+                        <Loading /> 
+
+                        : 
+                            posts?.map((items, i) =>(
+                                <span key={i} ref={i === posts.length - 1 ? lastPost  : previousPost}>
+                                    <Receipts items={items.items} orderId={items.orderId} date={items.date}/>
+                                </span>)
+                            )
+                    }
                 </div>
                 
             </div>
             }
-            { pageComplete ? 
-                <div className='p-[2em] text-center'>
-                    {clicked == "orders" && <h2 className='poppins font-bold text-[2rem] capitalize text-[--black]'>You are caught up!!!</h2>}
-                </div>
-            :
-
-            <motion.div ref={moreOrders}  className='w-full py-[1em]  text-center'>
-                   { clicked === "orders" &&     <FontAwesomeIcon  icon={faSpinner} className='font-bold text-[3rem] animate-spin text-[--black]'/>}
-            </motion.div>
-            }
+            <div ref={lastPost} className='p-[1em] text-center relative pb-[2em]'>
+                {isFetchingNextPage && <FontAwesomeIcon icon={faSpinner} className='text-[--black] absolute top-[-10px] text-[3rem] animate-spin'/>}
+            </div>
         </section>
     </div>
   )
