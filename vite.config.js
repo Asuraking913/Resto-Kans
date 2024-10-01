@@ -19,7 +19,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'resto-kans-api.vercel.app',
+        target: 'https://resto-kans-api.vercel.app/',
         changeOrigin: true,
         secure: true,  // Set to true for HTTPS
       }
