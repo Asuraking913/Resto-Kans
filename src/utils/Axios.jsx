@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const Axios = axios.create({
-    withCredentials: true
+    withCredentials: true, 
+    baseURL: "resto-kans-api.vercel.app"
     
 })
 
