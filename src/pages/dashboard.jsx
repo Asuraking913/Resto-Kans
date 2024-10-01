@@ -23,7 +23,7 @@ import Axios from '../utils/Axios'
 function Dashboard() {
 
     const admin = sessionStorage.getItem('admin')
-    const {isAuthenticated, adminUser} = useContext(AuthContext)
+    const {isAuthenticated, adminUser, setIsAuthenticated} = useContext(AuthContext)
     const [clicked, setClicked] = useState( admin ? "orders" : 'receipts') 
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
@@ -56,6 +56,11 @@ function Dashboard() {
         queryFn : async ({ pageParam = 1   }) => {
             try{
                 const response = await Axios.get(`api/order/?page=${pageParam}`)
+                if(response.status === 401) {
+                    sessionStorage.clear()
+                    navigate("/authenticate")
+                    setIsAuthenticated(false)
+                }
                 if(response.status == 200) {
                     const object = response.data.data.map(item => ({
                         orderId : item.orderId, 
@@ -69,7 +74,9 @@ function Dashboard() {
                 
             }
             catch(error) {
-                console.log(error)
+                sessionStorage.clear()
+                navigate("/authenticate")
+                setIsAuthenticated(false)
             }
         }, 
         
@@ -143,7 +150,7 @@ function Dashboard() {
                     {
                         posts?.map((items, i) =>(
                             <span key={i} ref={i === posts.length - 1 ? lastPost  : previousPost}>
-                                <Orders items={items.items} orderId={items.orderId} date={items.date}/>
+                                {items && <Orders items={items.items} orderId={items.orderId} date={items.date}/>}
                             </span>)
                         )
                     }

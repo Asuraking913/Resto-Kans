@@ -77,7 +77,7 @@ function LoginForm({onLogin}) {
               <p className='backdrop-blur-md  absolute top-[-8px] poppins border-transparent border-[0px] w-[100px] flex items-center justify-center'>or</p>
             </div>
 
-            <span className='p-[10px] bg-[--nav] justify-center flex items-center rounded-[5px] shadow-sm shadow-[--blackv] text-[--black] poppins  mt-[1em]'>
+            <span onClick={() => window.location.href = "https://accounts.google.com/o/oauth2/v2/auth?client_id=1046334637846-fqe9jcf76e3e2kegea0aau2he67hkmcp.apps.googleusercontent.com&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Faccounts%2Fgoogle%2Flogin%2Fcallback%2F&scope=email+profile&response_type=code&state=GK5t2xFsgeJh9g9V"} className='p-[10px] cursor-pointer bg-[--nav] justify-center flex items-center rounded-[5px] shadow-sm shadow-[--blackv] text-[--black] poppins  mt-[1em]'>
               <div className='flex gap-[1em] capitalize'>
                 <img src={logo1} className='w-[20px] h-[20px]' alt="" />
                 <span>Continue with google</span>
