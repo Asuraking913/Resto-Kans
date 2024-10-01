@@ -236,7 +236,7 @@ const [cartBar, setCartBar] = useState(false)
               </motion.div>
             }
             </AnimatePresence>
-            <div className='hidden sm:block'>
+            <div className='hidden sm:block z-[2]'>
               <CartBar onOrder={setOrder}  selectedItems={selectedItems.reverse().filter(item => !(deleted.includes(item.id)))} onDelete={setDeleted} onChange={setChange} change={change}/>
             </div>
           </section>

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Nav from '../components/primary-comp/nav'
-import { easeInOut, motion } from 'framer-motion'
+import { easeInOut, motion, useInView } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import food1 from "../assets/food1.jpeg"
 import food3 from "../assets/food3.jpeg"
@@ -15,7 +15,7 @@ import SideBar from '../components/primary-comp/sidebar'
 import Foot from '../components/primary-comp/foot'
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
+import { faAngleRight, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import img from "../assets/land3.png"
 import img1 from "../assets/land1.png"
 
@@ -33,7 +33,8 @@ function Landing() {
     const navigate = useNavigate()
     const [nav, setNav] = useState(false)
     const [isMobileView, setIsMobileView] = useState(window.innerWidth < 640)
-
+    const ref = useRef(null)
+    const inView = useInView(ref, {once : true})
     
     const [objList, setObjList] = useState([
     ]) 
@@ -129,7 +130,16 @@ function Landing() {
 
           <h2 className='uppercase text-[--black] poppins font-bold text-[1.5rem] sm:text-[2rem] text-center'>Our Menu</h2>
           <div className='menu  sm:px-[2em]'>
-              <Swiper
+              {
+                menuSlide.length <= 0 ?
+
+                <div className='w-full text-center py-[2em] animate-spin'>
+                  <FontAwesomeIcon icon={faSpinner} className='text-[4rem]'/>
+                </div>
+
+                :
+
+                <Swiper
               modules={[Pagination, Navigation, Autoplay]}
               spaceBetween={1}
               loop={true}
@@ -140,25 +150,18 @@ function Landing() {
               >
                 {menuSlide}
               </Swiper>
+              }
           </div>
         </section>
         <section className='sm:px-[--pdx] px-[1em] py-[1em]'>
           <h2 className='sm:text-[2rem] text-[1.5rem] font-bold py-[1em] text-[--black] text-center poppins uppercase '>Categories</h2>
-          <div className='flex flex-col sm:flex-row justify-between gap-[2em]'>
+          <div ref={ref} className='flex flex-col sm:flex-row justify-between gap-[2em]'>
             <motion.div
-              initial={{
-                y: "4em",
-                // opacity: 0
+              style={{
+                y: !inView ? "4em" : "0",
+                transition: "1s"
               }}
   
-              transition={{
-                duration: .9
-              }}
-  
-              whileInView={{
-                y: 0,
-                // opacity: [0, 0.1, 0.3, 0.5, 0.7, 1]
-              }}
              className='sm:w-[50%]  h-[200px] bg-[--blackv] rounded-[5px] p-[.5em]'>
               <div className='w-full relative rounded-[3px] h-full  back'>
                 <div className='absolute rounded-[3px] top-0 w-full bg-[#00000091] h-full flex items-center justify-center gap-[2em]'>
@@ -180,19 +183,10 @@ function Landing() {
               </div>
             </motion.div>
             <motion.div
-            initial={{
-              y: "6em",
-              // opacity: 0
-            }}
-
-            transition={{
-              duration: .9
-            }}
-
-            whileInView={{
-              y: 0,
-              // opacity: [0, 0.1, 0.3, 0.5, 0.7, 1]
-            }}
+              style={{
+                y: !inView ? "6em" : "0",
+                transition: "1s"
+              }}
              className='sm:w-[50%] rounded-[5px] h-[200px] bg-[--blackv] p-[.5em]'>
               <div className='w-full rounded-[5px] relative h-full  back1'>
                 <div className='absolute rounded-[3px] top-0 w-full bg-[#00000091] h-full flex items-center justify-center gap-[2em]'>
@@ -213,22 +207,14 @@ function Landing() {
             </motion.div>
           </div>
         </section>
-        <section className=' sm:gap-0 gap-[4em]  flex sm:flex-row flex-col-reverse justify-between px-[1em] sm:px-[--pdx] items-center py-[2em]'>
-
+        <section ref={ref} className=' sm:gap-0 gap-[4em]  flex sm:flex-row flex-col-reverse justify-between px-[1em] sm:px-[--pdx] items-center py-[2em]'>
           <motion.div
-          initial={{
-            x: "-9em",
-            // opacity: 0
+          style={{
+            x: !inView ? "-9em" : "0", 
+            transition: "1s"
+            // opacity: !inView ? [0, 0.1, 0.3, 0.5, 0.7, 1] : 0
           }}
 
-          transition={{
-            duration: 1.3
-          }}
-
-          whileInView={{
-            x: 0,
-            // opacity: [0, 0.1, 0.3, 0.5, 0.7, 1]
-          }}
            className='w-[50%] flex  items-center justify-center relative'>
               <div className=' sm:h-[500px] h-[240px] w-[240px] sm:w-[500px] absolute top-[2em] z-[-2] bg-[--blackv] rounded-[50%] blur-[90px] bg-opacity-10'>
 
@@ -268,7 +254,7 @@ function Landing() {
                   <FontAwesomeIcon icon={faAngleRight}/>
                 </div>
                 <div onClick={() => navigate("/authenticate")} className='bg-[--nav] capitalize text-[1.1rem] poppins h-[40px] flex items-center justify-center px-[.5em]'>
-                   Sign Up with us
+                   Log in
                 </div>
             </motion.button>
           </motion.div>

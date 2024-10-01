@@ -110,7 +110,7 @@ function Dashboard() {
 
     }, [inView])
 
-    const tabList = tabObj.filter(items => tabObj.indexOf(items) != value).map((item, i) => <TabBlock orders={posts ? posts?.length : ""} key={i} receipts={receipts.length} icon={item.icon} header={item.header} number={item?.amount}/>)
+    const tabList = tabObj.filter(items => items.header).map((item, i) => <TabBlock orders={posts ? posts?.length : ""} key={i} receipts={receipts.length} icon={item.icon} header={item.header} number={item?.amount}/>)
 
 
   return (
@@ -180,7 +180,7 @@ function Dashboard() {
                         : 
                             posts?.map((items, i) =>(
                                 <span key={i} ref={i === posts.length - 1 ? lastPost  : previousPost}>
-                                    <Receipts items={items.items} orderId={items.orderId} date={items.date}/>
+                                    {items && <Receipts items={items.items} orderId={items.orderId} date={items.date}/>}
                                 </span>)
                             )
                     }

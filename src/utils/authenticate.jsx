@@ -34,7 +34,6 @@ const handleSumbit = async (e, onError, onLogin, data, onLoading) => {
 
     try{
       const response = await Axios.post("/api/auth/login/user/", data.data)
-      console.log(response.data)
       // return
       if (response.status == 200) {
         data.onResult(true)
