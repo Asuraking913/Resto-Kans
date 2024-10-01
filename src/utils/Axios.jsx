@@ -2,7 +2,7 @@ import axios from "axios";
 
 const Axios = axios.create({
     withCredentials: true, 
-    baseURL: "https://resto-kans-api.vercel.app/"
+    baseURL: "https://resto-kans-api.onrender.com/"
     
 })
 
@@ -13,7 +13,7 @@ Axios.interceptors.request.use((config) => {
 
     (error) => {
         if(error.response.status === 401) {
-            localStorage.clear()
+            sessionStorage.clear()
             Promise.reject(error)
         }
     }
