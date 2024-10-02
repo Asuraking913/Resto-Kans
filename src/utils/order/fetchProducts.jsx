@@ -2,7 +2,8 @@ import Axios from "../Axios"
 
 const fetchFoods = async (onProduct) => {
     const response = await Axios.get("/api/product/").then(response => {
-        const new_data = response.data.map((items) => ({
+        console.log(response.data)
+        const new_data = response.data.results.map((items) => ({
             name: items.name,
             price: items.price, 
             available: items.available_stock,

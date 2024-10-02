@@ -7,7 +7,7 @@ import { useInterval } from 'react-use'
 import { motion, AnimatePresence } from 'framer-motion'
 import fetchFoods from '../../utils/order/fetchProducts'
 
-function OrderPrev({items, onOrder, onSelecteItems, onCartBar, onFood}) {
+function OrderPrev({items, onOrder, onSelecteItems, onCartBar, onFood, params}) {
 
     const [error, setError] = useState("")
 
@@ -36,8 +36,8 @@ function OrderPrev({items, onOrder, onSelecteItems, onCartBar, onFood}) {
             if(window.innerWidth < 640) {
             onCartBar(prev => !prev)
         }
-            onFood([])
-            fetchFoods(onFood)
+            onFood(prev => !prev)
+            // fetchFoods(onFood)
         }
     }, [status])
 

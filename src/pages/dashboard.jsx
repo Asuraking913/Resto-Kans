@@ -56,7 +56,6 @@ function Dashboard() {
         queryFn : async ({ pageParam = 1   }) => {
             try{
                 const response = await Axios.get(`api/order/?page=${pageParam}`)
-                console.log(response)
                 if(response.status === 401) {
                     sessionStorage.clear()
                     navigate("/authenticate")

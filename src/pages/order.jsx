@@ -1,25 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Nav from '../components/primary-comp/nav'
 import SideBar from '../components/primary-comp/sidebar'
 import OrderCart from '../components/cartOrder/orderCart'
 import CartBar from '../components/cartOrder/cartBar'
-import food1 from "../assets/food1.jpeg"
-import food3 from "../assets/food3.jpeg"
-import food4 from "../assets/food4.jpeg"
-import food5 from "../assets/food5.jpg"
-import food6 from "../assets/food6.jpg"
-import food7 from "../assets/food7.jpg"
-import food8 from "../assets/food8.jpeg"
-import food9 from "../assets/food9.jpg"
-import food10 from "../assets/food10.jpeg"
 import cart from "../assets/cart.png"
 import times from "../assets/times.png"
-import {motion, AnimatePresence} from "framer-motion"
+import {motion, AnimatePresence, useInView} from "framer-motion"
 import Axios from '../utils/Axios'
 import fetchFoods from '../utils/order/fetchProducts'
 import OrderPrev from '../components/cartOrder/orderPreview'
+import { QueryClient, useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 function OrderPage() {
+
+  const query = useQueryClient()
 
   const [selectedItems, setSelectedItems] = useState([
 ])
@@ -28,6 +24,9 @@ const [duplicate, setDuplicate] = useState([])
 const [deleted, setDeleted] = useState([])
 const [order, setOrder] = useState(false)
 const [error, setError] = useState("")
+const [foodChange, setFoodChange] = useState(false)
+const loading = useRef(null)
+const inView = useInView(loading)
 
 const [change, setChange] = useState(0)
 
@@ -41,149 +40,56 @@ useEffect(() => {
 
 
 const [foodObjects, setFoodObjects] = useState([
-  // {
-  //   name : "Sumptous Fried Fries",
-  //   price : 2500.00, 
-  //   available: 40, 
-  //   img: food1, 
-  //   id: self.crypto.randomUUID()
-  // },
-  // {
-  //   name : "Immortal Veggies goodness",
-  //   price : 1600.00, 
-  //   available: 20, 
-  //   img: food10,
-  //   id: self.crypto.randomUUID()
-  // },
-  // {
-  //   name : "Pancakes",
-  //   price : 9000.00, 
-  //   available: 10, 
-  //   img: food3, 
-  //   id: self.crypto.randomUUID()
-  // },
-  // {
-  //   name : "Buger",
-  //   price : 3000.00, 
-  //   available: 30, 
-  //   img: food4, 
-  //   id: self.crypto.randomUUID()
-  // },
-  // {
-  //   name : "Veggies goodness",
-  //   price : 1400.00, 
-  //   available: 5, 
-  //   img: food5, 
-  //   id: self.crypto.randomUUID()
-  // },
-  // {
-  //   name : "Delicacy",
-  //   price : 4000.00, 
-  //   available: 30, 
-  //   img: food6, 
-  //   id: self.crypto.randomUUID()
-  // },
-  // {
-  //   name : "Delicacy",
-  //   price : 1900.00, 
-  //   available: 10, 
-  //   img: food7, 
-  //   id: self.crypto.randomUUID()
-  // },
-  // {
-  //   name : "pizza",
-  //   price : 20000.00, 
-  //   available: 50, 
-  //   img: food8, 
-  //   id: self.crypto.randomUUID()
-  // },
-  // {
-  //   name : "Pizzas",
-  //   price : 15000.00, 
-  //   available: 15, 
-  //   img: food9, 
-  //   id: self.crypto.randomUUID()
-  // },
-  // {
-  //   name : "Sumptous Fried Fries",
-  //   price : 2500.00, 
-  //   available: 40, 
-  //   img: food1, 
-  //   id: self.crypto.randomUUID()
-  // },
-  // {
-  //   name : "Immortal Veggies goodness",
-  //   price : 1600.00, 
-  //   available: 20, 
-  //   img: food10,
-  //   id: self.crypto.randomUUID()
-  // },
-  // {
-  //   name : "Pancakes",
-  //   price : 9000.00, 
-  //   available: 10, 
-  //   img: food3, 
-  //   id: self.crypto.randomUUID()
-  // },
-  // {
-  //   name : "Buger",
-  //   price : 3000.00, 
-  //   available: 30, 
-  //   img: food4, 
-  //   id: self.crypto.randomUUID()
-  // },
-  // {
-  //   name : "Veggies goodness",
-  //   price : 1400.00, 
-  //   available: 5, 
-  //   img: food5, 
-  //   id: self.crypto.randomUUID()
-  // },
-  // {
-  //   name : "Delicacy",
-  //   price : 4000.00, 
-  //   available: 30, 
-  //   img: food6, 
-  //   id: self.crypto.randomUUID()
-  // },
-  // {
-  //   name : "Delicacy",
-  //   price : 1900.00, 
-  //   available: 10, 
-  //   img: food7, 
-  //   id: self.crypto.randomUUID()
-  // },
-  // {
-  //   name : "pizza",
-  //   price : 20000.00, 
-  //   available: 50, 
-  //   img: food8, 
-  //   id: self.crypto.randomUUID()
-  // },
-  // {
-  //   name : "Pizzas",
-  //   price : 15000.00, 
-  //   available: 15, 
-  //   img: food9, 
-  //   id: self.crypto.randomUUID()
-  // },
-  
 ])
 
 useEffect(() => {
-  fetchFoods(setFoodObjects)
+  fetchNextPage()
 }, [])
 
 const [nav, setNav] = useState(false)
 const [cartBar, setCartBar] = useState(false)
 
-  const foodList = foodObjects.map((item, i) => (
-      <OrderCart onError={setError} key={i} name={item.name} change={change} deleted={deleted} onDelete={setDeleted} quantity={item.available} id={item.id} onDuplicate={setDuplicate} img={item.img} price={item.price} onSelect={setSelectedItems} selected={selectedItems}/>
-  ))
+  let { data, fetchNextPage, refetch, isFetchingNextPage, error : productError } = useInfiniteQuery({
+    queryKey : ['products'], 
+    queryFn: async ({pageParam = 1}) => {
+      if(pageParam) {
+
+        try {
+          const response = await Axios.get(`api/product/?page=${pageParam}`)
+  
+          if(response.status === 200) {
+            return response.data.results
+          }
+          
+        } catch (error) {
+          setError("An error Occured")
+        }
+
+      }
+      
+    }, 
+
+    getNextPageParam: (lastPage, page) => {
+      return Math.floor(page.flatMap(page => page) / 10 + 1)
+    }
+  })
+
+  const foodList = data?.pages?.flatMap(pages => pages).map((item, i) => (
+   !isFetchingNextPage && <OrderCart  onError={setError} key={i} name={item.name} change={change} deleted={deleted} onDelete={setDeleted} quantity={item.available_stock} id={item.id} onDuplicate={setDuplicate} img={item.image} price={item.price} onSelect={setSelectedItems} selected={selectedItems}/>
+))
+
+useEffect(() => {
+  query.setQueryData(['products'], { pages : [], pageParam : [] })
+  fetchNextPage()
+}, [foodChange])
+
+useEffect(() => {
+  fetchNextPage()
+}, [inView])
 
   return (
     <>
-        {order && <OrderPrev onFood={setFoodObjects} onCartBar={setCartBar} onSelecteItems={setSelectedItems} onOrder={setOrder} items={selectedItems.filter(item => !(deleted.includes(item.id)))}/>}
+        {order && <OrderPrev onFood={setFoodChange} onCartBar={setCartBar} onSelecteItems={setSelectedItems} onOrder={setOrder} items={selectedItems.filter(item => !(deleted.includes(item.id)))}/>}
 
       <div className={`${ order  && "blur"}`}>
         {error && <p className='fixed bg-[--nav] shadow-sm shadow-[--black] top-[2em] p-[1.5em]'>{error}</p>}
@@ -203,10 +109,13 @@ const [cartBar, setCartBar] = useState(false)
             {nav &&
                 <SideBar nav={nav}/>
             }
-            <div className='text-[--bdcolor] sm:w-[80%]  h-[200vh] mt-[4em] sm:mt-[6em] min-[300px]: ml-[.2em] sm:ml-[6em]'>
+            <div className='text-[--bdcolor] sm:w-[80%]  h-[100vh] mt-[4em] sm:mt-[6em] min-[300px]: ml-[.2em] sm:ml-[6em]'>
               <h1 className='sm:text-2xl text-xl sm:text-left text-center font-bold poppins py-[.5em]'>Explore out best menu for today</h1>
               <div className='flex flex-wrap gap-[.4em] sm:justify-normal justify-center sm:gap-2' >
                 {foodList}
+              </div>
+              <div  className=' text-center py-[2em]'>
+                {isFetchingNextPage && <FontAwesomeIcon icon={faSpinner} className='text-[3rem] sm:mr-[4em] animate-spin'/>}
               </div>
             </div>
             <AnimatePresence>
