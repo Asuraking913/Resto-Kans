@@ -107,6 +107,7 @@ function Dashboard() {
         
         if(inView) {
             fetchNextPage()
+            console.log('even')
         }
 
     }, [inView])

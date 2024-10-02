@@ -11,7 +11,8 @@ import fetchFoods from '../utils/order/fetchProducts'
 import OrderPrev from '../components/cartOrder/orderPreview'
 import { QueryClient, useInfiniteQuery, useQueryClient } from '@tanstack/react-query'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
+import { useInterval } from 'react-use'
 
 function OrderPage() {
 
@@ -25,8 +26,9 @@ const [deleted, setDeleted] = useState([])
 const [order, setOrder] = useState(false)
 const [error, setError] = useState("")
 const [foodChange, setFoodChange] = useState(false)
-const loading = useRef(null)
-const inView = useInView(loading)
+const loadingRef = useRef(null)
+const inView = useInView(loadingRef)
+const [fullCount, setFullCount] = useState(0)
 
 const [change, setChange] = useState(0)
 
@@ -38,10 +40,6 @@ useEffect(() => {
   })
 }, [change])
 
-
-const [foodObjects, setFoodObjects] = useState([
-])
-
 useEffect(() => {
   fetchNextPage()
 }, [])
@@ -49,15 +47,15 @@ useEffect(() => {
 const [nav, setNav] = useState(false)
 const [cartBar, setCartBar] = useState(false)
 
-  let { data, fetchNextPage, refetch, isFetchingNextPage, error : productError } = useInfiniteQuery({
+  let { data, fetchNextPage, isFetchingNextPage, error : productError } = useInfiniteQuery({
     queryKey : ['products'], 
     queryFn: async ({pageParam = 1}) => {
-      if(pageParam) {
-
+      
+      if(pageParam && pageParam) {
         try {
           const response = await Axios.get(`api/product/?page=${pageParam}`)
-  
           if(response.status === 200) {
+            setFullCount(prev => prev = response.data.count)
             return response.data.results
           }
           
@@ -70,12 +68,12 @@ const [cartBar, setCartBar] = useState(false)
     }, 
 
     getNextPageParam: (lastPage, page) => {
-      return Math.floor(page.flatMap(page => page) / 10 + 1)
+      return Math.round(page.flatMap(pages => pages ).length / 10 + 1)
     }
   })
 
   const foodList = data?.pages?.flatMap(pages => pages).map((item, i) => (
-   !isFetchingNextPage && <OrderCart  onError={setError} key={i} name={item.name} change={change} deleted={deleted} onDelete={setDeleted} quantity={item.available_stock} id={item.id} onDuplicate={setDuplicate} img={item.image} price={item.price} onSelect={setSelectedItems} selected={selectedItems}/>
+   item && <OrderCart  onError={setError} key={i} name={item.name} change={change} deleted={deleted} onDelete={setDeleted} quantity={item.available_stock} id={item.id} onDuplicate={setDuplicate} img={item.image} price={item.price} onSelect={setSelectedItems} selected={selectedItems}/>
 ))
 
 useEffect(() => {
@@ -84,15 +82,33 @@ useEffect(() => {
 }, [foodChange])
 
 useEffect(() => {
-  fetchNextPage()
+  if(inView && foodList.length < fullCount) {
+    fetchNextPage()
+  }
 }, [inView])
+
+useInterval(() => {
+  setError(prev => prev = "")
+}, 4000, [error])
 
   return (
     <>
         {order && <OrderPrev onFood={setFoodChange} onCartBar={setCartBar} onSelecteItems={setSelectedItems} onOrder={setOrder} items={selectedItems.filter(item => !(deleted.includes(item.id)))}/>}
 
       <div className={`${ order  && "blur"}`}>
-        {error && <p className='fixed bg-[--nav] shadow-sm shadow-[--black] top-[2em] p-[1.5em]'>{error}</p>}
+        {error && 
+        <motion.p
+        initial={{
+          x: "9em", 
+        }}
+
+        animate={{
+          x: 0
+        }}
+         className='fixed bg-[--nav] z-[20] shadow-sm shadow-[--black] top-[4em] rounded-[5px] right-[10px] p-[20px] sm:p-[1.5em] poppins flex items-center gap-[10px]'>
+          {error}
+          <FontAwesomeIcon icon={faTimesCircle} className='text-red-500 text-xl'/>
+          </motion.p>}
         {/* Preview */}
           <Nav onNav={setNav} nav={nav}/>
           <div onClick={() => selectedItems.reverse().filter(item => !(deleted.includes(item.id))).length > 0  && setCartBar(!cartBar)} className={`fixed ${!cartBar ? 'top-[80%]' : 'top-[12%]' } bg-[--bg] p-2 sm:hidden shadow-md shadow-black rounded-[50%] right-[1em] z-[4]`}>
@@ -109,12 +125,12 @@ useEffect(() => {
             {nav &&
                 <SideBar nav={nav}/>
             }
-            <div className='text-[--bdcolor] sm:w-[80%]  h-[100vh] mt-[4em] sm:mt-[6em] min-[300px]: ml-[.2em] sm:ml-[6em]'>
+            <div className='text-[--bdcolor] flex items-center flex-col sm:block sm:w-[80%]  min-h-[100vh] mt-[4em] sm:mt-[6em] min-[300px]: ml-[.2em] sm:ml-[6em]'>
               <h1 className='sm:text-2xl text-xl sm:text-left text-center font-bold poppins py-[.5em]'>Explore out best menu for today</h1>
               <div className='flex flex-wrap gap-[.4em] sm:justify-normal justify-center sm:gap-2' >
                 {foodList}
               </div>
-              <div  className=' text-center py-[2em]'>
+              <div ref={loadingRef}  className=' text-center py-[2em]'>
                 {isFetchingNextPage && <FontAwesomeIcon icon={faSpinner} className='text-[3rem] sm:mr-[4em] animate-spin'/>}
               </div>
             </div>
