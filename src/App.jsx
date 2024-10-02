@@ -17,6 +17,10 @@ function App() {
 
   const {setAdminUser, setIsAuthenticated, adminUser} = useContext(AuthContext)
 
+  useEffect(() => {
+    document.title = "Resto Kans"
+  }, [])
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
