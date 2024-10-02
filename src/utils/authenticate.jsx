@@ -13,14 +13,14 @@ const handleSumbit = async (e, onError, onLogin, data, onLoading) => {
     const response = await Axios.post("/api/auth/create/user/", data).then(response => {
       // console.log(response, 'event')
       if(response.status == 201) {
+        
         onLogin(t => !t)
         onLoading(false)
       }
     }).catch((error) => {
       
       if(error) {
-        // onError(error.response.data.email)
-        console.log(error)
+        onError(error.response.data.email)
         onLoading(false)
       }
     })

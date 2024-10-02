@@ -5,7 +5,7 @@ import { handleLogin } from '../../utils/authenticate'
 import { useNavigate } from 'react-router-dom'
 import { useInterval } from 'react-use'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faSpinner, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { useContext } from 'react'
 import AuthContext from '../../utils/provider'
 
@@ -32,8 +32,8 @@ function LoginForm({onLogin}) {
   }, [result])
 
   useInterval(() => {
-    setError("")
-  }, 6000,[error])
+    setError(prev => prev ="")
+  }, 8000,[error])
 
 
   return (
@@ -53,7 +53,20 @@ function LoginForm({onLogin}) {
       })} className='w-full flex flex-col gap-[1em]'>
 
         <h2 className='text-2xl poppins text-center font-bold text-[--black]'>Login</h2>
-        {error && <p className='poppins text-center text-red-400'>{error}</p>}
+        {error && 
+        <motion.p 
+        initial={{
+          x: "4em"
+        }}
+
+        animate={{
+          x: 0
+        }}
+        className='poppins flex items-center gap-[1em] fixed top-[1em] bg-[--nav] p-[15px] rounded-[5px] poppins right-[10px] text-center'>
+          {error}
+          <FontAwesomeIcon icon={faTimesCircle} className='text-red-500'/>
+        </motion.p>
+        }
 
 
             <p className='poppins'>
@@ -67,7 +80,7 @@ function LoginForm({onLogin}) {
 
             <div className='flex justify-end'>
               <span className='poppins text-[0.9rem] underline hover:opacity-80'>
-                Forgotten Password
+                Forgotten Password?
               </span>
             </div>
 
@@ -83,7 +96,7 @@ function LoginForm({onLogin}) {
                 <span>Continue with google</span>
               </div>
             </span>
-            <span onClick={() => onLogin(false)} className='text-center text-[0.9rem] poppins underline hover:opacity-80'>Sign Up?</span>
+            <span onClick={() => onLogin(false)} className='text-center text-[0.9rem] poppins underline hover:opacity-80 cursor-pointer'>Sign Up?</span>
           </form>
   )
 }

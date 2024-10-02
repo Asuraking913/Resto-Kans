@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import logo1 from "../../assets/logo1.svg"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faEye, faSpinner, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { useInterval } from 'react-use'
 import { useNavigate } from 'react-router-dom'
 import handleSumbit from '../../utils/authenticate'
+import { motion } from 'framer-motion'
 
 function SignUp({onLogin}) {
 
@@ -19,7 +20,7 @@ function SignUp({onLogin}) {
   
 
   useInterval(() => {
-    setError("")
+    setError(prev => prev ="")
   }, 3000, [error])
 
   return (
@@ -28,7 +29,24 @@ function SignUp({onLogin}) {
 
             <h2 className='text-xl poppins text-center font-bold text-[--black]'>Create An Account</h2>
 
-            {error && <p className='poppins text-center'>{error}</p>}
+            {error && 
+              <motion.p 
+              initial={{
+                x: "4em"
+              }}
+            
+              animate={{
+                x: 0
+              }}
+
+              exit={{
+                x: "4em"
+              }}
+              className='poppins flex items-center gap-[1em] fixed top-[1em] bg-[--nav] p-[15px] rounded-[5px] poppins right-[10px] text-center'>
+                {error}
+                <FontAwesomeIcon icon={faTimesCircle} className='text-red-500'/>
+              </motion.p>
+              }
 
             <p className='poppins'>
               <label htmlFor="email">Email Address</label>
@@ -44,12 +62,6 @@ function SignUp({onLogin}) {
               {password !== "" && <FontAwesomeIcon onClick={() => setToggle(!toggle)} icon={faEye} className='absolute top-[2.2em] right-[10px] cursor-pointer'/>}
               <input className='block w-full p-[8px] rounded-[5px] shadow-sm border-[1.5px] border-[--blackv]' type={toggle ? "password" : "text"} required onChange={(e) => setPassword1(e.target.value)} name="password1" id="password1" />
             </p>
-
-            {/* <div className='flex justify-end'>
-              <button className='poppins text-[0.9rem] underline hover:opacity-80'>
-                Forgotten Password
-              </button>
-            </div> */}
 
             <button className='p-[10px] bg-[--black] rounded-[5px] shadow-sm shadow-[--blackv] text-[--nav] poppins font-bold' type="submit">{loading ? <FontAwesomeIcon className='text-2xl animate-spin' icon={faSpinner}/> : "Sign UP"}</button>
 
