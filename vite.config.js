@@ -19,7 +19,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://resto-kans-api.onrender.com/',
+        target: 'https://israel913.pythonanywhere.com/',
         changeOrigin: true,
         secure: true,  // Set to true for HTTPS
       }
