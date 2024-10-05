@@ -22,12 +22,24 @@ function Dashboard() {
 
     const admin = sessionStorage.getItem('admin')
     const {isAuthenticated, adminUser, setIsAuthenticated} = useContext(AuthContext)
-    const [clicked, setClicked] = useState( admin ? "orders" : 'receipts') 
+    const [clicked, setClicked] = useState("orders") 
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
     const navigate = useNavigate()
     const value = adminUser ? 9 : 2
     const [complete, setComplete] = useState(false)
+
+    useEffect(() => {
+        let admin = sessionStorage.getItem('admin');
+        console.log(admin)
+        if(!(admin === false)) {
+            setClicked(prev => prev = "orders")
+            return
+        }
+        setClicked(prev => prev = "receipts")
+        console.log(clicked)
+        console.log('e')
+    }, [])
 
     const [nav, setNav] = useState(false)
     const [tabObj, setTabObj] = useState([
@@ -124,7 +136,8 @@ function Dashboard() {
         <section className=' sm:pl-[--pdx] py-[.5em] pt-[4em] flex sm:flex-row flex-col gap-[.5em] items-center'>
             <div className={`m-[10px] ${adminUser ? "sm:w-[50%]" :"sm:w-[63%]"}`}>
                 <div className='  '>
-                    <h1 className='text-[2rem] poppins font-bold'>Welcome to Your DashBoard</h1>
+                    {!adminUser && <h1 className='text-[2rem] poppins font-bold'>Welcome to Your DashBoard</h1>}
+                    {adminUser && <h1 className='text-[2rem] poppins font-bold capitalize'>Welcome to the Admin panel</h1>}
                     <p className='poppins text-[0.9rem]'>View your recent transactions and activity</p>
                 </div>
             </div>
@@ -146,7 +159,8 @@ function Dashboard() {
         <section className='sm:px-[--pdx] px-[1em]'>
             {
                 clicked === "orders" && 
-                <div className='flex flex-wrap gap-[1em] py-[1em]'>
+                <div className='flex flex-wrap gap-[1em] py-[1em] relative'>
+                    
                     {
                         posts?.map((items, i) =>(
                             <span key={i} ref={i === posts.length - 1 ? lastPost  : previousPost}>
