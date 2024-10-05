@@ -14,15 +14,15 @@ import react from '@vitejs/plugin-react'
 //     }
 //   }
 // })
-// export default defineConfig({
-//   plugins: [react()],
-//   server: {
-//     proxy: {
-//       '/api': {
-//         target: 'https://israel913.pythonanywhere.com/',
-//         changeOrigin: true,
-//         secure: true,  // Set to true for HTTPS
-//       }
-//     }
-//   }
-// })
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://israel913.pythonanywhere.com/',
+        changeOrigin: true,
+        secure: true,  // Set to true for HTTPS
+      }
+    }
+  }
+})
