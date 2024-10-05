@@ -9,9 +9,7 @@ import CardForm from '../components/dashboard/cardForm'
 import handleUpload from '../utils/tabswitch'
 import { handleOrder, handlePayment, handleReceipts } from '../utils/tabswitch'
 import Upload from '../components/dashboard/upload'
-import fetchOrder from '../utils/dashboard/fetchorders'
 import Loading from '../components/primary-comp/loading'
-import fetchreceipts from '../utils/dashboard/fetchReceipts'
 import Receipts from '../components/dashboard/receipts'
 import AuthContext from '../utils/provider'
 import { useNavigate } from 'react-router-dom'
@@ -29,6 +27,7 @@ function Dashboard() {
     const [error, setError] = useState("")
     const navigate = useNavigate()
     const value = adminUser ? 9 : 2
+    const [complete, setComplete] = useState(false)
 
     const [nav, setNav] = useState(false)
     const [tabObj, setTabObj] = useState([
@@ -61,7 +60,11 @@ function Dashboard() {
                     navigate("/authenticate")
                     setIsAuthenticated(false)
                 }
-                if(response.status == 200) {
+                if(response.status === 200) {
+                    if(response.data.data .length <= 0) {
+                        console.log('event')
+                        setComplete(prev => !prev)
+                    }
                     const object = response.data.data.map(item => ({
                         orderId : item.orderId, 
                         date : item.date, 
@@ -74,7 +77,7 @@ function Dashboard() {
                 
             }
             catch(error) {
-                console.log(error)
+                // console.log(error)
                 sessionStorage.clear()
                 navigate("/authenticate")
                 setIsAuthenticated(false)
@@ -82,10 +85,6 @@ function Dashboard() {
         }, 
         
         getNextPageParam: (lastpage, pages) => {
-            // console.log(pages.flatMap(pages => pages ).length / 10)
-            // console.log(lastpage)
-            // console.log(pages.flatMap(pages => pages ).length)
-            // console.log(Math.round(pages.flatMap(pages => pages ).length / 10 + 1))
             return Math.round(pages.flatMap(pages => pages ).length / 10 + 1)
         }
     })
@@ -105,9 +104,8 @@ function Dashboard() {
     
     useEffect(() => {
         
-        if(inView) {
+        if(inView && !complete) {
             fetchNextPage()
-            console.log('even')
         }
 
     }, [inView])
@@ -175,7 +173,7 @@ function Dashboard() {
                     {
                         loading &&
 
-                        receiptList.length === 0 ? 
+                        receiptList.length  === 0 ? 
 
                         <Loading /> 
 
@@ -191,7 +189,7 @@ function Dashboard() {
             </div>
             }
             <div ref={lastPost} className='p-[1em] text-center relative pb-[2em]'>
-                {isFetchingNextPage && <FontAwesomeIcon icon={faSpinner} className='text-[--black] absolute top-[-10px] text-[3rem] animate-spin'/>}
+                {(isFetchingNextPage && clicked === "orders" || isFetchingNextPage && clicked === "receipts" )  && <FontAwesomeIcon icon={faSpinner} className='text-[--black] absolute top-[-10px] text-[3rem] animate-spin'/>}
             </div>
         </section>
     </div>

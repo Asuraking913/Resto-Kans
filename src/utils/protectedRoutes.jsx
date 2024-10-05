@@ -26,7 +26,7 @@ const PrivateRoute = () => {
 
     return (
         
-        isAuthenticated || sessionStorage.getItem('auth') ? <Outlet /> : <Navigate to={"/authenticate"}/>
+        isAuthenticated || authSession ? <Outlet /> : <Navigate to={"/authenticate"}/>
     )
 
 }
