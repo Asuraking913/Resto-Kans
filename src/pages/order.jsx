@@ -41,6 +41,7 @@ useEffect(() => {
 }, [change])
 
 useEffect(() => {
+  query.setQueryData(['products'], {pages : [], pageParam : []})
   fetchNextPage()
 }, [])
 
