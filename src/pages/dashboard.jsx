@@ -28,6 +28,7 @@ function Dashboard() {
     const navigate = useNavigate()
     const value = adminUser ? 9 : 2
     const [complete, setComplete] = useState(false)
+    const [fullCount, setFullCount] = useState(0)
 
     useEffect(() => {
         let admin = sessionStorage.getItem('admin');
@@ -74,7 +75,6 @@ function Dashboard() {
                 }
                 if(response.status === 200) {
                     if(response.data.data .length <= 0) {
-                        console.log('event')
                         setComplete(prev => !prev)
                     }
                     const object = response.data.data.map(item => ({
@@ -97,6 +97,7 @@ function Dashboard() {
         }, 
         
         getNextPageParam: (lastpage, pages) => {
+            // if(Math.round(pages.flatMap(pages => pages ).leng)
             return Math.round(pages.flatMap(pages => pages ).length / 10 + 1)
         }
     })
